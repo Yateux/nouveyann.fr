@@ -17,16 +17,14 @@ import { getCategories, getNeighbours, getProject } from "@/i18n/getProjects";
 import { getDictionary } from "@/i18n/dictionaries";
 import { path, projectPath } from "@/i18n/config";
 import { buildMetadata, resolveLocale } from "@/i18n/page";
-import { locales } from "@/i18n/config";
+
 
 type Params = { params: Promise<{ locale: string; slug: string }> };
 
 const MAX_DESCRIPTION_LENGTH = 160;
 
 export function generateStaticParams() {
-  return locales.flatMap((locale) =>
-    projects.map((project) => ({ locale, slug: project.slug })),
-  );
+  return projects.map((project) => ({ locale: "en", slug: project.slug }));
 }
 
 function metaDescription(tagline: string, signoff: string): string {

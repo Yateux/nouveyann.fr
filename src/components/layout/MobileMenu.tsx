@@ -127,7 +127,6 @@ export function MobileMenu({
               <li key={link.href} className="border-b border-ink/10">
                 <Link
                   href={link.href}
-                  prefetch={false}
                   onClick={onClose}
                   aria-current={active ? "page" : undefined}
                   style={{

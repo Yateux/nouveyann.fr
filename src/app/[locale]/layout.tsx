@@ -5,11 +5,13 @@ import { JsonLd } from "@/components/ui/JsonLd";
 import { getLogo } from "@/lib/media";
 import { HtmlLang } from "@/components/ui/HtmlLang";
 import { personJsonLd, websiteJsonLd } from "@/lib/jsonLd";
-import { htmlLang, isLocale, locales } from "@/i18n/config";
+import { htmlLang, isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
+  return [{ locale: "en" }];
 }
 
 export default async function LocaleLayout({

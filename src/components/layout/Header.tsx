@@ -101,7 +101,6 @@ export function Header({
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        prefetch={false}
                         aria-current={active ? "page" : undefined}
                         className={cn(
                           "mark pb-1 transition-colors",

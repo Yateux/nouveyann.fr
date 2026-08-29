@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
   isLocale,
-  locales,
   ogLocale,
   path,
   projectPath,
@@ -29,7 +28,7 @@ const FR_KEYWORDS = [
 ];
 
 export function localeParams() {
-  return locales.map((locale) => ({ locale }));
+  return [{ locale: "en" }];
 }
 
 export async function resolveLocale(

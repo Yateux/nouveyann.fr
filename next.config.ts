@@ -47,20 +47,6 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
-  async rewrites() {
-    return [
-      { source: "/", destination: "/fr" },
-      { source: "/projets", destination: "/fr/projects" },
-      { source: "/projets/:slug", destination: "/fr/projects/:slug" },
-      { source: "/a-propos", destination: "/fr/about" },
-      { source: "/contact", destination: "/fr/contact" },
-      { source: "/mentions-legales", destination: "/fr/legal-notice" },
-      {
-        source: "/politique-de-confidentialite",
-        destination: "/fr/privacy-policy",
-      },
-    ];
-  },
 
 
   async headers() {

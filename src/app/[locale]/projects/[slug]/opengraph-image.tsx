@@ -1,16 +1,14 @@
 import { renderOgImage, OG_SIZE, OG_CONTENT_TYPE } from "@/lib/ogImage";
 import { projects } from "@/data/projects";
 import { getCategories, getProject } from "@/i18n/getProjects";
-import { isLocale, locales } from "@/i18n/config";
+import { isLocale } from "@/i18n/config";
 
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 export const alt = "Case study, Yann Nouve";
 
 export function generateStaticParams() {
-  return locales.flatMap((locale) =>
-    projects.map((project) => ({ locale, slug: project.slug })),
-  );
+  return projects.map((project) => ({ locale: "en", slug: project.slug }));
 }
 
 export default async function Image({
