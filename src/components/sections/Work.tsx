@@ -96,7 +96,7 @@ export function Work({ locale = defaultLocale }: { locale?: Locale } = {}) {
                         {project.tagline}
                       </p>
 
-                      <span className="mark mt-4 block truncate border-t border-ink/10 pt-3 text-ink-subtle lg:mt-6">
+                      <span className="mark mt-4 hidden truncate border-t border-ink/10 pt-3 text-ink-subtle lg:mt-6 lg:block">
                         {project.tech.join(" · ")}
                       </span>
 

@@ -38,7 +38,7 @@ export const projects: Project[] = [
     sector: "Voyage et pèlerinage",
     tagline:
       "Une plateforme pour préparer et réserver un pèlerinage, du choix du séjour à la demande d’inscription.",
-    tech: ["Next.js", "Node.js", "PostgreSQL"],
+    tech: ["Next.js", "Firebase", "Stripe"],
     featured: true,
     study: {
       need: "Organiser un pèlerinage demande de comparer des séjours, des dates, des hébergements et des prestations qui évoluent souvent. Tout passait par le téléphone et la messagerie : information dispersée, réponses répétées, suivi difficile.",
@@ -47,7 +47,7 @@ export const projects: Project[] = [
       design:
         "Un voyage de ce type est un engagement important : chaque page cherche à rassurer. Les informations qui décident (dates, hébergement, prestations incluses) sont visibles avant tout défilement. Le parcours a été dessiné pour le téléphone d’abord, parce que c’est là que la plupart des visiteurs consultent.",
       development:
-        "Next.js pour la vitesse d’affichage et le référencement, Node.js côté serveur, PostgreSQL pour les données. Les contenus sont modifiables depuis l’administration : ajouter un séjour ne demande aucune intervention technique.",
+        "Next.js pour la vitesse d’affichage et le référencement, Firebase pour l’authentification et les données, Stripe pour le paiement. Les contenus sont modifiables depuis l’administration : ajouter un séjour ne demande aucune intervention technique.",
       result:
         "Les visiteurs trouvent l’information sans appeler, et les demandes arrivent déjà qualifiées : le séjour concerné, les dates, le nombre de personnes. L’équipe gère son catalogue elle-même.",
     },
@@ -60,7 +60,7 @@ export const projects: Project[] = [
     sector: "Marketplace, mise en relation",
     tagline:
       "Une marketplace qui met en relation professeurs et élèves, réservation et paiement compris.",
-    tech: ["Next.js", "Symfony", "PostgreSQL", "Stripe"],
+    tech: ["Next.js", "Symfony", "PostgreSQL", "MongoDB"],
     study: {
       need: "Faire vivre deux publics sur une même plateforme : d’un côté des professionnels qui proposent leurs compétences, de l’autre des personnes qui cherchent à apprendre. Il fallait que la rencontre aille jusqu’au paiement, sans jamais sortir du site.",
       solution:
@@ -68,7 +68,7 @@ export const projects: Project[] = [
       design:
         "Deux publics, deux logiques, une seule interface. Le parcours de celui qui achète devait rester très court ; celui qui vend avait besoin d’un tableau de bord lisible. La recherche a été traitée comme la page la plus importante du site, pas comme un utilitaire.",
       development:
-        "Interface en Next.js, API métier en Symfony, données en PostgreSQL, paiements via Stripe. Le paiement est la partie la plus sensible : il s’appuie entièrement sur les mécanismes de Stripe, aucune donnée bancaire ne transite par la plateforme.",
+        "Interface en Next.js, API métier en Symfony, données en PostgreSQL et MongoDB. La migration de la v2 vers la v3 s’est faite sans coupure de service, avec le déploiement et l’infrastructure repris au passage.",
       result:
         "Une transaction qui va jusqu’au bout sans quitter le site, et une plateforme qui peut accueillir de nouvelles catégories sans être reconstruite.",
     },
@@ -81,7 +81,7 @@ export const projects: Project[] = [
     sector: "Parfumerie",
     tagline:
       "La boutique en ligne d’une maison de parfum, vendue comme elle le serait en boutique.",
-    tech: ["WordPress", "Elementor", "WooCommerce"],
+    tech: ["WordPress", "WooCommerce", "Elementor"],
     featured: true,
     study: {
       need: "Vendre du parfum en ligne pose un problème simple : on ne peut pas le sentir. Tout ce qui déclenche l’achat doit passer par l’image, le vocabulaire et la mise en scène du produit.",
@@ -103,7 +103,7 @@ export const projects: Project[] = [
     sector: "Application communautaire",
     tagline:
       "Une application qui prévient toute une communauté en même temps : une annonce publiée, une notification sur chaque téléphone.",
-    tech: ["React Native", "Firebase", "Notifications push"],
+    tech: ["React Native", "NestJS", "PostgreSQL", "Redis"],
     featured: true,
     study: {
       need: "Une information qui doit circuler vite auprès d’un groupe de personnes, sans dépendre de chaînes de messages qui se perdent ou n’atteignent qu’une partie des concernés.",
@@ -112,7 +112,7 @@ export const projects: Project[] = [
       design:
         "L’application est consultée dans l’urgence, souvent d’une seule main. Grands caractères, contrastes appuyés, aucune étape superflue entre l’ouverture de l’application et l’information recherchée.",
       development:
-        "React Native pour iOS et Android, Firebase pour les données en temps réel et l’envoi des notifications. La publication est réservée aux comptes autorisés, contrôlée côté serveur et non depuis l’application.",
+        "React Native pour iOS et Android, une API NestJS avec PostgreSQL et Redis côté serveur. Géolocalisation pour trouver les annonces dans un rayon donné, et notifications push dès qu’une annonce est publiée.",
       result:
         "Une diffusion immédiate et fiable, et une administration simple pour les personnes qui publient.",
     },
@@ -147,7 +147,7 @@ export const projects: Project[] = [
     sector: "Galerie d’art",
     tagline:
       "Une galerie en ligne où les œuvres sont présentées comme elles le seraient sur un mur.",
-    tech: ["WordPress", "Elementor", "WooCommerce"],
+    tech: ["WordPress", "WooCommerce", "Elementor"],
     study: {
       need: "Une galerie a besoin de montrer avant de vendre. Le site devait donner à des œuvres la place qu’elles occupent dans un lieu d’exposition, tout en permettant l’achat.",
       solution:
@@ -184,21 +184,21 @@ export const projects: Project[] = [
     slug: "meteo-express",
     url: "https://meteo-express.com",
     name: "Météo Express",
-    category: "app-web",
-    sector: "Application grand public",
+    category: "site",
+    sector: "Média, prévisions météo",
     tagline:
-      "Une application web qui affiche la météo d’une ville, sans publicité.",
-    tech: ["React", "API météo"],
+      "La remise en état d’un site de prévisions météo suivi par toute la francophonie.",
+    tech: ["WordPress", "Elementor"],
     study: {
-      need: "Consulter la météo demande souvent de traverser des publicités et des encarts avant d’atteindre l’information. Il manquait une version directe : une ville, une réponse.",
+      need: "Un site en ligne depuis 2008, entièrement financé par la publicité et les dons. Des bugs d’affichage traînaient, des modules ne fonctionnaient plus après des mises à jour, et chaque défaut coûtait des visiteurs.",
       solution:
-        "Une application web légère : on saisit une ville, on obtient les conditions actuelles et les prévisions. Rien d’autre.",
+        "Un audit complet, puis la correction : pages de prévisions, cartes interactives, sections d’observations, tout ce qui coinçait à l’affichage comme au fonctionnement.",
       design:
-        "Une seule information principale par écran, une typographie de grande taille, un contraste franc. L’écran se lit à un mètre de distance, ce qui est la vraie situation d’usage.",
+        "Pas de refonte graphique : l’habitude des visiteurs est un actif. Les corrections ont porté sur ce qui gênait la lecture, sans déplacer les repères que le public connaît depuis des années.",
       development:
-        "React côté interface, données récupérées auprès d’une API météo. Les états d’attente et d’erreur, ville inconnue ou service indisponible, sont traités explicitement plutôt que laissés au hasard.",
+        "WordPress et Elementor, la pile déjà en place. Reprendre l’existant plutôt que tout réécrire : moins de risque, et un site qui reste administrable par la même équipe.",
       result:
-        "Une application qui répond en un geste, sur téléphone comme sur ordinateur.",
+        "Un site qui refonctionne pour ses utilisateurs, en parallèle des applications iOS et Android du même service.",
     },
   },
   {

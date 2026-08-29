@@ -62,7 +62,7 @@ export function ProjectCard({
               />
             </div>
 
-            <p className="mt-2 max-w-lg leading-relaxed text-ink-muted">
+            <p className="mt-2 line-clamp-2 min-h-[3.25rem] max-w-lg leading-relaxed text-ink-muted">
               {project.tagline}
             </p>
 

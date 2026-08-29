@@ -96,7 +96,7 @@ export default async function ProjectsPage({
                 key={item.project.slug}
                 className="w-[82vw] max-w-sm shrink-0 snap-start lg:w-auto lg:max-w-none lg:shrink"
               >
-                <Reveal delay={(index % 2) * 70}>
+                <Reveal>
                   <ProjectCard
                     {...item}
                     locale={locale}

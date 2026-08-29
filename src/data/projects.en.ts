@@ -28,7 +28,7 @@ export const projectsEn: Record<string, ProjectCopy> = {
       design:
         "A trip like this is a serious commitment, so every page works to reassure. The details that decide the booking sit above the fold: dates, accommodation, what is included. The whole flow was drawn for the phone first, because that is where most visitors are.",
       development:
-        "Next.js for rendering speed and search visibility, Node.js on the server, PostgreSQL for the data. Content is editable from the admin: adding a trip takes no technical work.",
+        "Next.js for rendering speed and search visibility, Firebase for authentication and data, Stripe for payment. Content is editable from the admin: adding a trip takes no technical work.",
       result:
         "Visitors find what they need without calling, and applications arrive already qualified: which trip, which dates, how many people. The team runs its own catalogue.",
     },
@@ -44,7 +44,7 @@ export const projectsEn: Record<string, ProjectCopy> = {
       design:
         "Two audiences, two logics, one interface. The buyer's path had to stay very short; the seller needed a dashboard they could read. Search was treated as the most important page on the site, not as a utility.",
       development:
-        "Next.js on the front, a Symfony API for the business logic, PostgreSQL for the data, Stripe for payments. Payment is the sensitive part: it leans entirely on Stripe's mechanisms, no card data ever touches the platform.",
+        "Next.js on the front, a Symfony API for the business logic, PostgreSQL and MongoDB for the data. The v2 to v3 migration ran without downtime, with deployment and infrastructure taken over along the way.",
       result:
         "A platform where both sides do their job on their own, and a codebase a team can keep working on.",
     },
@@ -76,7 +76,7 @@ export const projectsEn: Record<string, ProjectCopy> = {
       design:
         "The app gets opened in a hurry, often one-handed. Large type, strong contrast, and nothing between opening the app and the information being looked for.",
       development:
-        "React Native for iOS and Android, Firebase for realtime data and notification delivery. Publishing is restricted to authorised accounts, enforced server side rather than in the app.",
+        "React Native for iOS and Android, a NestJS API backed by PostgreSQL and Redis. Geolocation finds announcements within a given radius, and push notifications fire as soon as one is published.",
       result:
         "Delivery that is immediate and reliable, and an admin simple enough for the people who publish.",
     },
@@ -126,18 +126,19 @@ export const projectsEn: Record<string, ProjectCopy> = {
     },
   },
   "meteo-express": {
-    sector: "Consumer app",
-    tagline: "A web app that shows a city's weather, with no advertising.",
+    sector: "Media, weather forecasts",
+    tagline:
+      "Bringing a weather forecast site followed across the French-speaking world back into shape.",
     study: {
-      need: "Checking the weather usually means getting past ads and panels before reaching the information. A direct version was missing: one city, one answer.",
+      need: "A site online since 2008, funded entirely by advertising and donations. Display bugs had piled up, modules stopped working after updates, and every fault cost visitors.",
       solution:
-        "A light web app: you type a city, you get current conditions and the forecast. Nothing else.",
+        "A full audit, then the fixes: forecast pages, interactive maps, observation sections, everything that misbehaved on screen or under the hood.",
       design:
-        "One main piece of information per screen, large type, hard contrast. The screen reads from a metre away, which is the real usage situation.",
+        "No visual redesign: habit is an asset here. The work targeted what got in the way of reading, without moving the landmarks the audience has known for years.",
       development:
-        "React on the interface, data pulled from a weather API. Loading and error states are handled explicitly rather than left to chance: unknown city, service down.",
+        "WordPress and Elementor, the stack already in place. Building on what existed rather than rewriting: less risk, and a site the same team can still administer.",
       result:
-        "An app that answers in one move, on a phone as much as on a desktop.",
+        "A site working again for its users, alongside the iOS and Android apps of the same service.",
     },
   },
   "slk-pressing": {
