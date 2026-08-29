@@ -101,6 +101,7 @@ export function Header({
                     <li key={link.href}>
                       <Link
                         href={link.href}
+                        prefetch={false}
                         aria-current={active ? "page" : undefined}
                         className={cn(
                           "mark pb-1 transition-colors",
@@ -124,6 +125,7 @@ export function Header({
                   hrefLang={other}
                   className="mark hidden text-ink-subtle transition-colors hover:text-ink md:inline-flex"
                 >
+                  <span aria-hidden="true" className="mr-2">{t.nav.switchFlag}</span>
                   {t.nav.switchLanguage}
                 </Link>
               ) : null}

@@ -62,29 +62,6 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  async redirects() {
-    return [
-      { source: "/fr", destination: "/", permanent: true },
-      { source: "/fr/projects", destination: "/projets", permanent: true },
-      {
-        source: "/fr/projects/:slug",
-        destination: "/projets/:slug",
-        permanent: true,
-      },
-      { source: "/fr/about", destination: "/a-propos", permanent: true },
-      { source: "/fr/contact", destination: "/contact", permanent: true },
-      {
-        source: "/fr/legal-notice",
-        destination: "/mentions-legales",
-        permanent: true,
-      },
-      {
-        source: "/fr/privacy-policy",
-        destination: "/politique-de-confidentialite",
-        permanent: true,
-      },
-    ];
-  },
 
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

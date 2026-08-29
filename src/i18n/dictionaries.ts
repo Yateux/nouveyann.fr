@@ -11,6 +11,7 @@ export type Dictionary = {
     close: string;
     skipToContent: string;
     switchLanguage: string;
+    switchFlag: string;
   };
   home: {
     metaTitle: string;
@@ -140,6 +141,7 @@ const fr: Dictionary = {
     close: "Fermer",
     skipToContent: "Aller au contenu",
     switchLanguage: "English",
+    switchFlag: "🇬🇧",
   },
   home: {
     metaTitle: "Yann Nouve, développeur web freelance en Île-de-France",
@@ -311,6 +313,7 @@ const en: Dictionary = {
     close: "Close",
     skipToContent: "Skip to content",
     switchLanguage: "Français",
+    switchFlag: "🇫🇷",
   },
   home: {
     metaTitle: "Yann Nouve, freelance full-stack web developer in Paris",
