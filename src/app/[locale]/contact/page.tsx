@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Label } from "@/components/ui/Label";
@@ -7,6 +6,7 @@ import { ContactForm } from "@/components/ui/ContactForm";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { siteConfig } from "@/data/site";
 import { calendlyHref, emailHref } from "@/lib/links";
+import { TrackedLink } from "@/components/ui/TrackedLink";
 import { breadcrumbJsonLd } from "@/lib/jsonLd";
 import { getDictionary } from "@/i18n/dictionaries";
 import { path } from "@/i18n/config";
@@ -61,14 +61,16 @@ export default async function ContactPage({
               <p className="mt-3 text-body-md text-ink-muted">
                 {t.contact.bookText}
               </p>
-              <Link
+              <TrackedLink
+                event="booking_click"
+                payload={{ from: "contact" }}
                 href={calendlyHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-6 inline-flex h-14 items-center justify-center bg-ink px-8 text-label-sm whitespace-nowrap text-canvas uppercase transition-opacity duration-300 hover:opacity-85"
               >
                 {t.contact.bookCta}
-              </Link>
+              </TrackedLink>
             </div>
 
             <dl className="grid gap-px border border-ink/10 bg-ink/10">

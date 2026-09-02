@@ -14,6 +14,7 @@ import {
 } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getNav, otherLocale, switchPath } from "@/i18n/nav";
+import { trackNamed } from "@/lib/analytics";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { cn } from "@/lib/cn";
 
@@ -121,6 +122,7 @@ export function Header({
               {englishEnabled ? (
                 <Link
                   href={switchPath(pathname, locale)}
+                onClick={() => trackNamed("language_switch", { to: other })}
                   hrefLang={other}
                   className="mark hidden text-ink-subtle transition-colors hover:text-ink md:inline-flex"
                 >

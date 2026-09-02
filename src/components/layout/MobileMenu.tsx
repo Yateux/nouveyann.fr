@@ -7,6 +7,7 @@ import { siteConfig } from "@/data/site";
 import { defaultLocale, englishEnabled, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getNav, otherLocale, switchPath } from "@/i18n/nav";
+import { trackNamed } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 import { calendlyHref, emailHref } from "@/lib/links";
 
@@ -160,7 +161,10 @@ export function MobileMenu({
           <Link
             href={switchPath(pathname, locale)}
             hrefLang={other}
-            onClick={onClose}
+            onClick={() => {
+              trackNamed("language_switch", { to: other });
+              onClose();
+            }}
             className="mark mt-8 inline-flex text-ink-subtle transition-colors hover:text-ink"
           >
             <span aria-hidden="true" className="mr-2">{t.nav.switchFlag}</span>

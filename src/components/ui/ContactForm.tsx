@@ -2,6 +2,7 @@
 
 import { defaultLocale, path, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { trackEvent } from "@/lib/analytics";
 import { useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Loader2, Check } from "lucide-react";
@@ -41,10 +42,16 @@ export function ContactForm({
   const [serverMessage, setServerMessage] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
 
+  const started = useRef(false);
+
   const update = <K extends keyof ContactFormValues>(
     key: K,
     value: ContactFormValues[K],
   ) => {
+    if (!started.current) {
+      started.current = true;
+      trackEvent("contact_form_start");
+    }
     setValues((current) => ({ ...current, [key]: value }));
     setErrors((current) => ({ ...current, [key]: undefined }));
   };
@@ -60,6 +67,7 @@ export function ContactForm({
       setStatus("idle");
       const firstKey = Object.keys(fieldErrors)[0];
       if (firstKey) {
+        trackEvent("contact_form_invalid", { field: firstKey });
         formRef.current
           ?.querySelector<HTMLElement>(`[name="${firstKey}"]`)
           ?.focus();
@@ -84,14 +92,17 @@ export function ContactForm({
           : "";
 
       if (!response.ok) {
+        trackEvent("contact_form_failed");
         setStatus("error");
         setServerMessage(message || t.genericError);
         return;
       }
 
+      trackEvent("contact_form_submit", { locale });
       setStatus("sent");
       setValues(EMPTY);
     } catch {
+      trackEvent("contact_form_failed");
       setStatus("error");
       setServerMessage(t.genericError);
     }

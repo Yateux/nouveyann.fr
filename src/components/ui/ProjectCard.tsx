@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TrackedLink } from "@/components/ui/TrackedLink";
 import { ArrowUpRight } from "lucide-react";
 import type { Project } from "@/data/projects";
 import type { ProjectMedia as Media } from "@/lib/media";
@@ -28,7 +28,9 @@ export function ProjectCard({
 
   return (
     <article className="h-full">
-      <Link
+      <TrackedLink
+        event="project_open"
+        payload={{ slug: project.slug }}
         href={projectPath(project.slug, locale)}
         className="group flex h-full flex-col"
       >
@@ -71,7 +73,7 @@ export function ProjectCard({
             </p>
           </div>
         </div>
-      </Link>
+      </TrackedLink>
     </article>
   );
 }

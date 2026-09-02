@@ -13,6 +13,7 @@ import { projects } from "@/data/projects";
 import { getProjectMedia } from "@/lib/media";
 import { breadcrumbJsonLd, creativeWorkJsonLd } from "@/lib/jsonLd";
 import { safeUrl } from "@/lib/safeUrl";
+import { TrackedAnchor } from "@/components/ui/TrackedAnchor";
 import { getCategories, getNeighbours, getProject } from "@/i18n/getProjects";
 import { getDictionary } from "@/i18n/dictionaries";
 import { path, projectPath } from "@/i18n/config";
@@ -110,7 +111,9 @@ export default async function ProjectPage({ params }: Params) {
           </p>
 
           {liveUrl ? (
-            <a
+            <TrackedAnchor
+              event="live_site_click"
+              payload={{ slug: project.slug }}
               href={liveUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -118,7 +121,7 @@ export default async function ProjectPage({ params }: Params) {
             >
               <span className="link-underline">{t.caseStudy.viewLive}</span>
               <ExternalLink aria-hidden="true" className="h-4 w-4" />
-            </a>
+            </TrackedAnchor>
           ) : null}
         </div>
 
