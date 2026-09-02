@@ -182,8 +182,9 @@ const privacy: Record<Locale, LegalPageContent> = {
       {
         title: "Cookies et mesure d’audience",
         paragraphs: [
-          "Ce site ne dépose aucun cookie publicitaire et n’utilise aucun traceur de mesure d’audience. Aucune bannière de consentement n’est donc nécessaire.",
-          "Si un outil de mesure venait à être ajouté, cette page serait mise à jour et votre consentement recueilli au préalable.",
+          "Ce site ne dépose aucun cookie, ni publicitaire ni technique de suivi.",
+          "La fréquentation est mesurée avec Vercel Analytics : nombre de visites, pages consultées, pays et type d’appareil. La mesure est anonyme, sans cookie et sans identifiant permettant de vous reconnaître d’une visite à l’autre ou sur un autre site. Aucune bannière de consentement n’est donc nécessaire.",
+          "Ces statistiques ne sont ni revendues ni partagées. Elles servent uniquement à savoir quelles pages sont utiles.",
         ],
       },
       {
@@ -244,8 +245,9 @@ const privacy: Record<Locale, LegalPageContent> = {
       {
         title: "Cookies and analytics",
         paragraphs: [
-          "This site sets no advertising cookie and uses no analytics tracker. No consent banner is therefore needed.",
-          "Should an analytics tool be added, this page would be updated and your consent collected beforehand.",
+          "This site sets no cookies, neither advertising nor tracking ones.",
+          "Traffic is measured with Vercel Analytics: visit counts, pages viewed, country and device type. The measurement is anonymous, cookie-free, and carries no identifier that could recognise you from one visit to the next or across sites. No consent banner is therefore needed.",
+          "These statistics are never sold or shared. They only serve to know which pages are useful.",
         ],
       },
       {

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk, JetBrains_Mono, Manrope } from "next/font/google";
 import "./globals.css";
 import { isPlaceholder, siteConfig } from "@/data/site";
+import { Analytics } from "@vercel/analytics/next";
 
 const body = Manrope({
   subsets: ["latin"],
@@ -90,6 +91,8 @@ export default function RootLayout({
         </noscript>
 
         {children}
+
+        <Analytics />
       </body>
     </html>
   );
