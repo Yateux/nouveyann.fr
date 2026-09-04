@@ -70,7 +70,7 @@ export default async function AboutPage({
           </dl>
 
           {links.length > 0 ? (
-            <div className="mt-10 border-t border-ink/10 pt-8">
+            <div className="mt-12">
               <Label as="h2">{t.about.elsewhere}</Label>
 
               <ul className="mt-5 flex flex-wrap gap-3">
@@ -80,14 +80,14 @@ export default async function AboutPage({
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex h-12 items-center justify-between gap-4 border border-ink/10 px-4 transition-colors hover:border-ink sm:justify-start sm:px-5"
+                      className="group flex h-12 items-center justify-between gap-4 rounded-card border border-line-strong bg-sand-soft px-4 transition-colors duration-300 hover:border-ink hover:bg-ink sm:justify-start sm:px-5"
                     >
-                      <span className="mark whitespace-nowrap text-ink">
+                      <span className="mark whitespace-nowrap text-ink transition-colors duration-300 group-hover:text-canvas">
                         {link.label}
                       </span>
                       <ArrowUpRight
                         aria-hidden="true"
-                        className="h-4 w-4 shrink-0 text-ink-subtle transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ink"
+                        className="h-4 w-4 shrink-0 text-ink-subtle transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-canvas"
                       />
                     </a>
                   </li>

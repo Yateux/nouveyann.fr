@@ -13,6 +13,7 @@ export const siteConfig = {
   xHandle: "yateux",
   evolspire: "https://evolspire.com",
   linkedin: "https://www.linkedin.com/in/nouve-yann/",
+  malt: "https://www.malt.fr/profile/nouveyann",
   description:
     "Développeur freelance en Île-de-France. Je conçois et développe sites web, boutiques e-commerce et applications sur mesure. Découvrez mes réalisations.",
 } as const;
@@ -32,12 +33,14 @@ export const legalNav = [
 
 export const externalLinks = [
   { label: "LinkedIn", href: siteConfig.linkedin },
+  { label: "Malt", href: siteConfig.malt },
   { label: "X", href: siteConfig.x },
   { label: "Evolspire", href: siteConfig.evolspire },
 ] as const;
 
 export const profileUrls = [
   siteConfig.linkedin,
+  siteConfig.malt,
   siteConfig.x,
   siteConfig.evolspire,
   siteConfig.codeur,
