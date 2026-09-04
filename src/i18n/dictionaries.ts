@@ -122,6 +122,7 @@ export type Dictionary = {
     remote: string;
     backToTop: string;
   };
+  skills: { label: string };
   jsonLd: { jobTitle: string };
   notFound: {
     title: string;
@@ -294,6 +295,7 @@ const fr: Dictionary = {
     remote: "À distance partout en France",
     backToTop: "Retour en haut",
   },
+  skills: { label: "Compétences" },
   jsonLd: { jobTitle: "Développeur freelance" },
   notFound: {
     title: "Page introuvable.",
@@ -465,6 +467,7 @@ const en: Dictionary = {
     remote: "Remote across France",
     backToTop: "Back to top",
   },
+  skills: { label: "Skills" },
   jsonLd: { jobTitle: "Freelance full-stack developer" },
   notFound: {
     title: "Page not found.",

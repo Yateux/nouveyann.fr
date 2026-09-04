@@ -14,11 +14,11 @@ export const jobs: Job[] = [
       "Sites, boutiques en ligne et applications sur mesure, de la conception à la mise en ligne.",
   },
   {
-    period: "sept. 2022 → avr. 2023",
+    period: "sept. 2022 → déc. 2022",
     role: "Formateur",
     company: "ANDN Services",
     description:
-      "Cours de JavaScript, PHP, SQL et modélisation de bases de données : supports, travaux pratiques et contrôles notés.",
+      "Cours de JavaScript, PHP, SQL et modélisation de bases de données pour l’IEF2I et l’Efrei : supports, travaux pratiques et contrôles notés.",
   },
   {
     period: "janv. 2022 → août 2022",
@@ -32,7 +32,7 @@ export const jobs: Job[] = [
     role: "Lead dev fullstack",
     company: "Wooskill",
     description:
-      "Migration de la v2 vers la v3, revues de code, tests et monitoring, avec le planning d’une équipe de cinq personnes.",
+      "Migration de la v2 vers la v3, form builder maison, back-office React Admin, tests et monitoring, avec le planning d’une équipe de cinq personnes.",
   },
   {
     period: "févr. 2020 → mars 2021",
@@ -60,7 +60,7 @@ export const jobs: Job[] = [
     role: "Conception et développement d’applications",
     company: "Société Générale",
     description:
-      "Référentiel de flux utilisé par une équipe de vingt-cinq personnes, API REST documentée et recherche avancée en React.",
+      "Référentiel de flux utilisé par une équipe de vingt-cinq personnes : collecte en Python, API REST documentée sous Swagger, interface React et TypeScript.",
   },
 ];
 

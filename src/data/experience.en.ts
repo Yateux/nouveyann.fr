@@ -11,11 +11,11 @@ const copy: Record<
     description:
       "Websites, online stores and custom applications, from design through to launch.",
   },
-  "sept. 2022 → avr. 2023": {
-    period: "Sept 2022 → Apr 2023",
+  "sept. 2022 → déc. 2022": {
+    period: "Sept 2022 → Dec 2022",
     role: "Instructor",
     description:
-      "JavaScript, PHP, SQL and database modelling: course material, lab work and graded assessments.",
+      "JavaScript, PHP, SQL and database modelling for IEF2I and Efrei: course material, lab work and graded assessments.",
   },
   "janv. 2022 → août 2022": {
     period: "Jan 2022 → Aug 2022",
@@ -27,7 +27,7 @@ const copy: Record<
     period: "Mar 2021 → Dec 2021",
     role: "Lead full-stack developer",
     description:
-      "v2 to v3 migration, code reviews, testing and monitoring, running the schedule for a team of five.",
+      "v2 to v3 migration, an in-house form builder, a React Admin back office, testing and monitoring, running the schedule for a team of five.",
   },
   "févr. 2020 → mars 2021": {
     period: "Feb 2020 → Mar 2021",
@@ -51,7 +51,7 @@ const copy: Record<
     period: "Sept 2016 → Aug 2019",
     role: "Application design and development",
     description:
-      "A data-flow repository used by a team of twenty-five, a documented REST API and advanced search in React.",
+      "A data-flow repository used by a team of twenty-five: collection in Python, a REST API documented in Swagger, and a React and TypeScript interface.",
   },
 };
 

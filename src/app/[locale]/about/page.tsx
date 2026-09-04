@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/Label";
 import { Reveal } from "@/components/ui/Reveal";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { Capabilities } from "@/components/sections/Capabilities";
+import { Skills } from "@/components/sections/Skills";
 import { Process } from "@/components/sections/Process";
 import { CTA } from "@/components/sections/CTA";
 import { externalLinks, isPlaceholder } from "@/data/site";
@@ -99,6 +100,7 @@ export default async function AboutPage({
       </Container>
 
       <Capabilities locale={locale} spacingBottom="pb-8 lg:pb-10" />
+      <Skills locale={locale} />
       <Process locale={locale} />
       <CTA locale={locale} />
 
