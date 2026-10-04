@@ -6,19 +6,19 @@ const groups: Record<Locale, SkillGroup[]> = {
   fr: [
     {
       title: "Frontend",
-      text: "JavaScript et TypeScript, React et Next.js au quotidien, Vue quand le projet le demande. Tailwind, styled-components ou Ant Design pour l’habillage, Redux et RTK Query, redux-saga ou TanStack Query pour l’état et les données, React Admin pour les back-offices. Chez Wooskill j’ai conçu le design system en atomic design, un form builder maison et la messagerie en temps réel.",
+      text: "JavaScript et TypeScript, React et Next.js au quotidien, Vue quand le projet le demande. Tailwind, styled-components ou Ant Design pour l’habillage, Redux et RTK Query, redux-saga ou TanStack Query pour l’état et les données, React Admin pour les back-offices, Storybook pour documenter les composants. Je travaille à partir des maquettes Figma, et j’aime les interfaces denses : chez BNP Paribas, un VS Code intégré au navigateur, des pipelines affichés en graphe avec React Flow et des journaux temps réel qui restent fluides à la lecture.",
     },
     {
       title: "Backend et API",
-      text: "Node.js avec Fastify ou NestJS, PHP et Symfony avec API Platform, des API REST documentées sous Swagger. J’ai aussi travaillé en Java Spring Boot et en Python à la Société Générale, sur un référentiel de flux qui servait une équipe de vingt-cinq personnes.",
+      text: "Node.js avec Fastify ou NestJS, PHP et Symfony avec API Platform, des API REST documentées sous Swagger. Strapi quand le contenu doit être édité par l’équipe elle-même, avec des modules et des plugins CKEditor sur mesure pour qu’une documentation se mette en page sans passer par un développeur. Sur Janaza Jamaa, c’est une API NestJS adossée à PostgreSQL et Redis qui porte la géolocalisation et l’envoi des notifications push.",
     },
     {
       title: "Données",
-      text: "PostgreSQL, MySQL et MariaDB pour le relationnel, Redis pour le cache et les files, Elasticsearch quand la recherche devient le cœur du produit. Le choix se fait selon la nature des données, pas par habitude.",
+      text: "PostgreSQL, MySQL et MariaDB pour le relationnel, Redis pour le cache et les files, Elasticsearch ou Meilisearch quand la recherche devient le cœur du produit. Le choix se fait selon la nature des données, pas par habitude.",
     },
     {
       title: "Infrastructure et mise en production",
-      text: "Docker, Linux, AWS et OVH, avec des chaînes d’intégration continue sous GitLab CI ou CircleCI. J’ai repris toute la partie ops de Wooskill en même temps que le développement, monitoring et déploiement compris, et je conçois des architectures en microservices.",
+      text: "Docker, Linux, AWS et OVH, avec des chaînes d’intégration continue sous GitLab CI ou CircleCI, et des mises en production par Argo CD. J’ai repris toute la partie ops de Wooskill en même temps que le développement, monitoring et déploiement compris, et je conçois des architectures en microservices.",
     },
     {
       title: "Intégrations",
@@ -26,7 +26,7 @@ const groups: Record<Locale, SkillGroup[]> = {
     },
     {
       title: "Renfort d’équipe",
-      text: "J’interviens seul sur un produit, en renfort d’une équipe en place, ou aux côtés d’un Lead Dev ou d’un CTO pour prendre du recul sur l’architecture et l’organisation du code. Chez Wooskill je gérais le planning de cinq personnes, les revues de code et les bonnes pratiques Git.",
+      text: "J’interviens seul sur un produit, en renfort d’une équipe en place, ou aux côtés d’un Lead Dev ou d’un CTO pour prendre du recul sur l’architecture et l’organisation du code. Je travaille depuis 2023 dans l’équipe plateforme IA de BNP Paribas Personal Finance ; chez Wooskill je gérais le planning de cinq personnes, les revues de code et les bonnes pratiques Git.",
     },
     {
       title: "Transmission",
@@ -36,19 +36,19 @@ const groups: Record<Locale, SkillGroup[]> = {
   en: [
     {
       title: "Frontend",
-      text: "JavaScript and TypeScript, React and Next.js day to day, Vue when the project calls for it. Tailwind, styled-components or Ant Design for the interface layer, Redux and RTK Query, redux-saga or TanStack Query for state and data fetching, React Admin for back offices. At Wooskill I built the atomic design system, an in-house form builder and the realtime messaging.",
+      text: "JavaScript and TypeScript, React and Next.js day to day, Vue when the project calls for it. Tailwind, styled-components or Ant Design for the interface layer, Redux and RTK Query, redux-saga or TanStack Query for state and data fetching, React Admin for back offices, Storybook to document components. I work from Figma designs, and I enjoy dense interfaces: at BNP Paribas, VS Code embedded in the browser, pipelines drawn as graphs with React Flow, and realtime logs that stay smooth to read.",
     },
     {
       title: "Backend and APIs",
-      text: "Node.js with Fastify or NestJS, PHP and Symfony with API Platform, REST APIs documented in Swagger. I also worked in Java Spring Boot and Python at Société Générale, on a data-flow repository serving a team of twenty-five.",
+      text: "Node.js with Fastify or NestJS, PHP and Symfony with API Platform, REST APIs documented in Swagger. Strapi when content has to be edited by the team itself, with custom modules and CKEditor plugins so documentation can be laid out without a developer. On Janaza Jamaa, a NestJS API backed by PostgreSQL and Redis handles the geolocation and the push notifications.",
     },
     {
       title: "Data",
-      text: "PostgreSQL, MySQL and MariaDB for relational work, Redis for caching and queues, Elasticsearch when search becomes the heart of the product. The choice follows the shape of the data, not habit.",
+      text: "PostgreSQL, MySQL and MariaDB for relational work, Redis for caching and queues, Elasticsearch or Meilisearch when search becomes the heart of the product. The choice follows the shape of the data, not habit.",
     },
     {
       title: "Infrastructure and shipping",
-      text: "Docker, Linux, AWS and OVH, with continuous integration on GitLab CI or CircleCI. I took over the whole ops side of Wooskill alongside the development work, monitoring and deployment included, and I design microservice architectures.",
+      text: "Docker, Linux, AWS and OVH, with continuous integration on GitLab CI or CircleCI, and releases through Argo CD. I took over the whole ops side of Wooskill alongside the development work, monitoring and deployment included, and I design microservice architectures.",
     },
     {
       title: "Integrations",
@@ -56,7 +56,7 @@ const groups: Record<Locale, SkillGroup[]> = {
     },
     {
       title: "Joining a team",
-      text: "I work alone on a product, as reinforcement for an existing team, or alongside a Lead Dev or CTO to step back on architecture and code organisation. At Wooskill I ran the schedule for five people, the code reviews and the Git practices.",
+      text: "I work alone on a product, as reinforcement for an existing team, or alongside a Lead Dev or CTO to step back on architecture and code organisation. Since 2023 I have been part of the AI platform team at BNP Paribas Personal Finance; at Wooskill I ran the schedule for five people, the code reviews and the Git practices.",
     },
     {
       title: "Teaching",

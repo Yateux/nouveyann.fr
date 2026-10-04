@@ -5,11 +5,11 @@ const copy: Record<
   string,
   { period: string; role: string; description: string }
 > = {
-  "2023 → aujourd’hui": {
-    period: "2023 → today",
-    role: "Freelance developer",
+  "sept. 2023 → aujourd’hui": {
+    period: "Sept 2023 → today",
+    role: "Full-stack developer, React / Next.js",
     description:
-      "Websites, online stores and custom applications, from design through to launch.",
+      "Within the AI platform team: the interfaces of an internal MLOps platform for data scientists, with VS Code embedded in the browser, self-service LLM deployment, pipeline graphs and realtime log reading. Plus the documentation portal in Next.js and Strapi, versioned and searchable through Meilisearch.",
   },
   "sept. 2022 → déc. 2022": {
     period: "Sept 2022 → Dec 2022",

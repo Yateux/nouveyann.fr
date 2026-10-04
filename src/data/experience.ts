@@ -7,11 +7,11 @@ export type Job = {
 
 export const jobs: Job[] = [
   {
-    period: "2023 → aujourd’hui",
-    role: "Développeur freelance",
-    company: "Indépendant",
+    period: "sept. 2023 → aujourd’hui",
+    role: "Développeur fullstack React / Next.js",
+    company: "BNP Paribas Personal Finance",
     description:
-      "Sites, boutiques en ligne et applications sur mesure, de la conception à la mise en ligne.",
+      "Au sein de l’équipe plateforme IA : les interfaces d’une plateforme MLOps interne pour les data scientists, avec VS Code intégré au navigateur, déploiement de LLM en libre-service, visualisation de pipelines en graphe et lecture de journaux en temps réel. Et le portail de documentation en Next.js et Strapi, versionné et cherchable sous Meilisearch.",
   },
   {
     period: "sept. 2022 → déc. 2022",

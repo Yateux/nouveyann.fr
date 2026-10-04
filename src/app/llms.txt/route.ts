@@ -3,6 +3,7 @@ import { projects, categories } from "@/data/projects";
 import { jobs } from "@/data/experience";
 import { getSkills } from "@/data/skills";
 import { path, projectPath } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 
 export const dynamic = "force-static";
 
@@ -12,7 +13,7 @@ export function GET() {
   const body = [
     `# ${siteConfig.name}`,
     "",
-    `> ${siteConfig.description}`,
+    `> ${getDictionary("fr").home.headline.name} ${getDictionary("fr").home.headline.role} ${siteConfig.description}`,
     "",
     "## Pages",
     "",
@@ -20,7 +21,15 @@ export function GET() {
     `- [Projets](${url(path("projects", "fr"))}) : les 12 réalisations, par catégorie`,
     `- [À propos](${url(path("about", "fr"))}) : parcours, compétences, méthode`,
     `- [Contact](${url(path("contact", "fr"))}) : formulaire et réservation d'appel`,
-    `- [English version](${url(path("home", "en"))})`,
+    "",
+    "## English",
+    "",
+    "The same site exists in English, with the same projects and the same wording.",
+    "",
+    `- [Home](${url(path("home", "en"))})`,
+    `- [Work](${url(path("projects", "en"))})`,
+    `- [About](${url(path("about", "en"))})`,
+    `- [Contact](${url(path("contact", "en"))})`,
     "",
     "## Compétences",
     "",
