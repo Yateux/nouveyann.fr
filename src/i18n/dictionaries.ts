@@ -4,35 +4,53 @@ export type Dictionary = {
   nav: {
     home: string;
     projects: string;
+    expertise: string;
     about: string;
     contact: string;
     mainNavigation: string;
-    menu: string;
-    close: string;
+    language: string;
+    toDark: string;
+    toLight: string;
+    pauseMotion: string;
+    resumeMotion: string;
+    newTab: string;
     skipToContent: string;
     switchLanguage: string;
-    switchFlag: string;
   };
   home: {
     metaTitle: string;
     metaDescription: string;
-    location: string;
     headline: { name: string; role: string };
-    intro: string[];
+    title: { lead: string; accent: string };
+    lede: { strong: string; rest: string };
+    demo: {
+      label: string;
+      steps: [string, string, string, string];
+      callMessage: string;
+      callMeta: string;
+      live: string;
+    };
     seeWork: string;
     getInTouch: string;
-    scroll: string;
-    figure: string;
     workLabel: string;
     allProjects: string;
     viewCaseStudy: string;
     capabilitiesLabel: string;
     experienceLabel: string;
     exampleLink: string;
+    detail: string;
+    fullCareer: string;
   };
-  process: {
+  expertise: {
+    metaTitle: string;
+    metaDescription: string;
     label: string;
-    steps: { title: string; description: string }[];
+    title: string;
+    lead: string;
+    seeProjects: (count: number) => string;
+    technologies: string;
+    redesign: { before: string; after: string };
+    maintenance: [string, string, string];
   };
   projects: {
     metaTitle: string;
@@ -40,6 +58,8 @@ export type Dictionary = {
     label: string;
     title: string;
     lead: string;
+    all: string;
+    filterLabel: string;
     listLabel: (category: string) => string;
     previewAlt: (name: string) => string;
   };
@@ -62,6 +82,9 @@ export type Dictionary = {
       result: string;
     };
     gallery: (name: string) => string;
+    views: { desktop: string; mobile: string };
+    chaptersLabel: string;
+    live: string;
     navLabel: string;
     previous: string;
     next: string;
@@ -74,6 +97,7 @@ export type Dictionary = {
     paragraphs: string[];
     facts: { term: string; value: string }[];
     elsewhere: string;
+    experiences: string;
   };
   contact: {
     metaTitle: string;
@@ -81,11 +105,9 @@ export type Dictionary = {
     label: string;
     title: string;
     lead: string;
-    bookLabel: string;
     bookTitle: string;
     bookText: string;
     bookCta: string;
-    writeLabel: string;
     writeTitle: string;
     writeText: string;
     fields: { name: string; email: string; message: string; consent: string };
@@ -103,87 +125,95 @@ export type Dictionary = {
     infoWhereValue: string;
     infoReply: string;
     infoReplyValue: string;
+    copy: string;
+    copied: string;
+    errorFallback: string;
+    errors: {
+      name: string;
+      nameLong: string;
+      email: string;
+      emailLong: string;
+      message: string;
+      messageLong: string;
+      consent: string;
+    };
   };
   cta: {
     title: string;
     description: string;
     book: string;
     write: string;
-    or: string;
   };
   footer: {
-    reach: string;
-    navigation: string;
     elsewhere: string;
     legalNotice: string;
     privacy: string;
-    rights: string;
-    where: string;
-    remote: string;
-    backToTop: string;
   };
   skills: { label: string };
   jsonLd: { jobTitle: string };
-  notFound: {
-    title: string;
-    text: string;
-    back: string;
-  };
 };
 
 const fr: Dictionary = {
   nav: {
     home: "Accueil",
     projects: "Projets",
+    expertise: "Expertise",
     about: "À propos",
     contact: "Contact",
     mainNavigation: "Navigation principale",
-    menu: "Menu",
-    close: "Fermer",
+    language: "Langue",
+    toDark: "Passer au thème sombre",
+    toLight: "Passer au thème clair",
+    pauseMotion: "Mettre les animations en pause",
+    resumeMotion: "Réactiver les animations",
+    newTab: "nouvel onglet",
     skipToContent: "Aller au contenu",
     switchLanguage: "English",
-    switchFlag: "🇬🇧",
   },
   home: {
     metaTitle: "Yann Nouve, développeur web freelance en Île-de-France",
     metaDescription:
       "Développeur freelance en Île-de-France. Je conçois et développe sites web, boutiques e-commerce et applications sur mesure. Découvrez mes réalisations.",
-    location: "Île-de-France · Partout en France",
     headline: { name: "Yann Nouve,", role: "lead développeur fullstack." },
-    intro: [
-      "En freelance, je conçois et je développe des sites, des boutiques en ligne et des applications sur mesure.",
-      "Vous échangez avec la personne qui écrit le code, du premier appel aux évolutions qui suivent.",
-    ],
+    title: {
+      lead: "Du premier appel à la mise en ligne,",
+      accent: "une seule personne.",
+    },
+    lede: {
+      strong: "Yann Nouve, lead développeur fullstack en freelance.",
+      rest: "Je conçois et je développe des sites, des boutiques en ligne et des applications sur mesure.",
+    },
+    demo: {
+      label: "Les étapes d’un projet",
+      steps: ["Appel", "Maquette", "Code", "En ligne"],
+      callMessage:
+        "« Bonjour, je voudrais que mes clients réservent en ligne. »",
+      callMeta: "Premier appel, 30 minutes",
+      live: "En ligne",
+    },
     seeWork: "Mon travail",
     getInTouch: "Me contacter",
-    scroll: "Défiler",
-    figure: "Fig. 01 · Développé sur mesure",
     workLabel: "Réalisations",
     allProjects: "Tous les projets",
     viewCaseStudy: "Voir l’étude de cas",
     capabilitiesLabel: "Ce que je fais",
     experienceLabel: "Parcours",
     exampleLink: "Exemple",
+    detail: "Le détail",
+    fullCareer: "Tout le parcours",
   },
-  process: {
-    label: "La méthode",
-    steps: [
-      {
-        title: "On se parle",
-        description:
-          "Trente minutes pour cerner votre activité, vos clients et ce que le projet doit vous rapporter.",
-      },
-      {
-        title: "Je construis",
-        description:
-          "Maquette, développement, retours à chaque étape. Vous voyez le projet avancer, sans surprise à la livraison.",
-      },
-      {
-        title: "On continue",
-        description:
-          "Mise en ligne, vérifications, prise en main. Puis je reste disponible pour faire évoluer le site au rythme de votre activité.",
-      },
-    ],
+  expertise: {
+    metaTitle: "Expertise : sites web, e-commerce et applications",
+    metaDescription:
+      "Sites web, boutiques e-commerce, applications web et mobiles, refonte et maintenance : ce que conçoit et développe Yann Nouve, développeur freelance.",
+    label: "Expertise",
+    title: "Ce que je fais.",
+    lead: "J’accompagne directement les entrepreneurs, les commerces et les entreprises dans la création de leurs produits digitaux : sites web, boutiques en ligne, applications web et mobiles.",
+    seeProjects: (count) =>
+      count > 1 ? `Voir les ${count} projets` : "Voir le projet",
+    technologies: "Technologies",
+    redesign: { before: "Avant", after: "Après" },
+    maintenance: ["Mises à jour", "Correctifs", "Évolutions"],
   },
   projects: {
     metaTitle: "Projets",
@@ -192,6 +222,8 @@ const fr: Dictionary = {
     label: "Projets",
     title: "Tout ce que j’ai mis en ligne.",
     lead: "Du pressing du coin à la maison de parfum. Le besoin décide de la solution, jamais l’inverse.",
+    all: "Tous",
+    filterLabel: "Filtrer les projets",
     listLabel: (category) => `Projets : ${category}`,
     previewAlt: (name) => `Aperçu du projet ${name}`,
   },
@@ -214,6 +246,9 @@ const fr: Dictionary = {
       result: "Le résultat",
     },
     gallery: (name) => `Galerie du projet ${name}`,
+    views: { desktop: "vue sur ordinateur", mobile: "vue sur mobile" },
+    chaptersLabel: "Chapitres",
+    live: "En ligne",
     navLabel: "Projets précédent et suivant",
     previous: "Projet précédent",
     next: "Projet suivant",
@@ -236,6 +271,7 @@ const fr: Dictionary = {
       { term: "Interlocuteur", value: "Le même du début à la fin" },
     ],
     elsewhere: "Me retrouver ailleurs",
+    experiences: "Expériences",
   },
   contact: {
     metaTitle: "Contact",
@@ -244,12 +280,10 @@ const fr: Dictionary = {
     label: "Contact",
     title: "Parlons de votre projet.",
     lead: "Dites-moi ce que vous voulez construire.",
-    bookLabel: "Le plus simple",
     bookTitle: "Réserver un appel",
     bookText:
       "Trente minutes au téléphone, sans engagement. Vous me racontez votre projet, je vous dis comment je le ferais et ce que cela implique.",
     bookCta: "Choisir un créneau",
-    writeLabel: "Ou par écrit",
     writeTitle: "Écrire un message",
     writeText:
       "Trois champs suffisent. Le budget et le périmètre, on en parle de vive voix.",
@@ -275,6 +309,19 @@ const fr: Dictionary = {
     infoWhereValue: "Île-de-France, à distance partout en France",
     infoReply: "Réponse",
     infoReplyValue: "Sous 24 à 48 heures ouvrées",
+    copy: "Copier",
+    copied: "Copié",
+    errorFallback: "Vous pouvez aussi m’écrire à",
+    errors: {
+      name: "Indiquez votre nom.",
+      nameLong: "Ce nom est trop long.",
+      email: "Cette adresse e-mail semble incorrecte.",
+      emailLong: "Cette adresse est trop longue.",
+      message:
+        "Décrivez votre projet en quelques mots (20 caractères minimum).",
+      messageLong: "Ce message est trop long (4000 caractères maximum).",
+      consent: "Merci de cocher cette case pour envoyer votre message.",
+    },
   },
   cta: {
     title: "Un projet à mettre en ligne ?",
@@ -282,81 +329,76 @@ const fr: Dictionary = {
       "Sans engagement : trente minutes au téléphone pour comprendre votre besoin et vous dire ce qui est possible.",
     book: "Réserver un appel",
     write: "Écrire un message",
-    or: "ou",
   },
   footer: {
-    reach: "Me joindre",
-    navigation: "Navigation",
     elsewhere: "Ailleurs",
     legalNotice: "Mentions légales",
     privacy: "Politique de confidentialité",
-    rights: "Tous droits réservés.",
-    where: "Où",
-    remote: "À distance partout en France",
-    backToTop: "Retour en haut",
   },
   skills: { label: "Compétences" },
   jsonLd: { jobTitle: "Développeur freelance" },
-  notFound: {
-    title: "Page introuvable.",
-    text: "Cette adresse ne mène nulle part. Le reste du site fonctionne.",
-    back: "Retour à l’accueil",
-  },
 };
 
 const en: Dictionary = {
   nav: {
     home: "Home",
     projects: "Work",
+    expertise: "Expertise",
     about: "About",
     contact: "Contact",
     mainNavigation: "Main navigation",
-    menu: "Menu",
-    close: "Close",
+    language: "Language",
+    toDark: "Switch to dark theme",
+    toLight: "Switch to light theme",
+    pauseMotion: "Pause animations",
+    resumeMotion: "Resume animations",
+    newTab: "new tab",
     skipToContent: "Skip to content",
     switchLanguage: "Français",
-    switchFlag: "🇫🇷",
   },
   home: {
     metaTitle: "Yann Nouve, freelance full-stack web developer in Paris",
     metaDescription:
       "Freelance web developer based near Paris, France. I design and build websites, online stores and custom applications, end to end. See the work.",
-    location: "Île-de-France · Remote across France",
     headline: { name: "Yann Nouve,", role: "lead full-stack developer." },
-    intro: [
-      "Freelance, I design and build websites, online stores and custom applications.",
-      "You talk to the person writing the code, from the first call to whatever comes after launch.",
-    ],
+    title: {
+      lead: "From the first call to launch day,",
+      accent: "one person.",
+    },
+    lede: {
+      strong: "Yann Nouve, freelance lead full-stack developer.",
+      rest: "I design and build websites, online stores and custom applications.",
+    },
+    demo: {
+      label: "The stages of a project",
+      steps: ["Call", "Mockup", "Code", "Live"],
+      callMessage: "“Hello, I’d like my customers to book online.”",
+      callMeta: "First call, 30 minutes",
+      live: "Live",
+    },
     seeWork: "See my work",
     getInTouch: "Get in touch",
-    scroll: "Scroll",
-    figure: "Fig. 01 · Built to measure",
     workLabel: "Selected work",
     allProjects: "All projects",
     viewCaseStudy: "Read the case study",
     capabilitiesLabel: "What I do",
     experienceLabel: "Experience",
     exampleLink: "Example",
+    detail: "In detail",
+    fullCareer: "Full background",
   },
-  process: {
-    label: "How it works",
-    steps: [
-      {
-        title: "We talk",
-        description:
-          "Thirty minutes to understand your business, your customers, and what the project has to bring in.",
-      },
-      {
-        title: "I build",
-        description:
-          "Design, development, feedback at every step. You watch the project move, with no surprise on delivery day.",
-      },
-      {
-        title: "We keep going",
-        description:
-          "Launch, checks, hand-over. Then I stay available to grow the site at the pace of your business.",
-      },
-    ],
+  expertise: {
+    metaTitle: "Expertise: websites, online stores and apps",
+    metaDescription:
+      "Websites, online stores, web and mobile apps, redesign and maintenance: what Yann Nouve, freelance full-stack developer near Paris, designs and builds.",
+    label: "Expertise",
+    title: "What I do.",
+    lead: "I work directly with founders, local businesses and companies on their digital products: websites, online stores, web and mobile applications.",
+    seeProjects: (count) =>
+      count > 1 ? `See all ${count} projects` : "See the project",
+    technologies: "Stack",
+    redesign: { before: "Before", after: "After" },
+    maintenance: ["Updates", "Fixes", "New features"],
   },
   projects: {
     metaTitle: "Work",
@@ -365,6 +407,8 @@ const en: Dictionary = {
     label: "Work",
     title: "Everything I have put online.",
     lead: "From the dry cleaner around the corner to a perfume house. The need decides the solution, never the other way round.",
+    all: "All",
+    filterLabel: "Filter projects",
     listLabel: (category) => `Projects: ${category}`,
     previewAlt: (name) => `Preview of the ${name} project`,
   },
@@ -387,6 +431,9 @@ const en: Dictionary = {
       result: "The outcome",
     },
     gallery: (name) => `${name} project gallery`,
+    views: { desktop: "desktop view", mobile: "mobile view" },
+    chaptersLabel: "Chapters",
+    live: "Live",
     navLabel: "Previous and next project",
     previous: "Previous project",
     next: "Next project",
@@ -409,6 +456,7 @@ const en: Dictionary = {
       { term: "Point of contact", value: "The same one throughout" },
     ],
     elsewhere: "Find me elsewhere",
+    experiences: "Experience",
   },
   contact: {
     metaTitle: "Contact",
@@ -417,12 +465,10 @@ const en: Dictionary = {
     label: "Contact",
     title: "Let's talk about your project.",
     lead: "Tell me what you want to build.",
-    bookLabel: "Simplest way",
     bookTitle: "Book a call",
     bookText:
       "Thirty minutes on the phone, no commitment. You walk me through your project, I tell you how I would build it and what that involves.",
     bookCta: "Pick a slot",
-    writeLabel: "Or in writing",
     writeTitle: "Send a message",
     writeText:
       "Three fields are enough. Budget and scope are better discussed out loud.",
@@ -447,6 +493,18 @@ const en: Dictionary = {
     infoWhereValue: "Île-de-France, remote across France",
     infoReply: "Reply",
     infoReplyValue: "Within 24 to 48 working hours",
+    copy: "Copy",
+    copied: "Copied",
+    errorFallback: "You can also write to me at",
+    errors: {
+      name: "Enter your name.",
+      nameLong: "This name is too long.",
+      email: "This email address looks incorrect.",
+      emailLong: "This address is too long.",
+      message: "Describe your project in a few words (20 characters minimum).",
+      messageLong: "This message is too long (4000 characters maximum).",
+      consent: "Please tick this box to send your message.",
+    },
   },
   cta: {
     title: "A project to put online?",
@@ -454,26 +512,14 @@ const en: Dictionary = {
       "No commitment: thirty minutes on the phone to understand what you need and tell you what is possible.",
     book: "Book a call",
     write: "Send a message",
-    or: "or",
   },
   footer: {
-    reach: "Reach me",
-    navigation: "Navigation",
     elsewhere: "Elsewhere",
     legalNotice: "Legal notice",
     privacy: "Privacy policy",
-    rights: "All rights reserved.",
-    where: "Where",
-    remote: "Remote across France",
-    backToTop: "Back to top",
   },
   skills: { label: "Skills" },
   jsonLd: { jobTitle: "Freelance full-stack developer" },
-  notFound: {
-    title: "Page not found.",
-    text: "This address leads nowhere. The rest of the site works.",
-    back: "Back to home",
-  },
 };
 
 const dictionaries: Record<Locale, Dictionary> = { fr, en };

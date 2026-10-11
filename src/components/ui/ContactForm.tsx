@@ -7,12 +7,7 @@ import { useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Loader2, Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import {
-  contactSchema,
-  fieldErrorsFrom,
-  type ContactFieldErrors,
-  type ContactFormValues,
-} from "@/lib/validation";
+import type { ContactFieldErrors, ContactFormValues } from "@/lib/validation";
 import { emailHref } from "@/lib/links";
 import { siteConfig } from "@/data/site";
 import { cn } from "@/lib/cn";
@@ -27,10 +22,17 @@ const EMPTY: ContactFormValues = {
 
 type Status = "idle" | "sending" | "sent" | "error";
 
+// The validator is the heaviest script of the site and only this form needs
+// it: it is fetched when the visitor starts typing, not with every page that
+// links to the contact page.
+const loadValidation = () => import("@/lib/validation");
+
 const FIELD_CLASS =
-  "w-full border bg-surface px-4 py-3.5 text-body-md text-ink " +
-  "placeholder:text-ink-subtle/70 transition-colors duration-200 " +
-  "focus:border-ink focus:outline-none";
+  "w-full rounded-card border bg-transparent p-3.5 text-body-md text-ink " +
+  "placeholder:text-ink-muted/75 transition-colors duration-150 " +
+  "focus:border-ink";
+
+const LABEL_CLASS = "block text-[0.9rem] font-semibold";
 
 export function ContactForm({
   locale = defaultLocale,
@@ -51,6 +53,7 @@ export function ContactForm({
     if (!started.current) {
       started.current = true;
       trackEvent("contact_form_start");
+      void loadValidation();
     }
     setValues((current) => ({ ...current, [key]: value }));
     setErrors((current) => ({ ...current, [key]: undefined }));
@@ -60,7 +63,8 @@ export function ContactForm({
     event.preventDefault();
     if (status === "sending") return;
 
-    const parsed = contactSchema.safeParse(values);
+    const { createContactSchema, fieldErrorsFrom } = await loadValidation();
+    const parsed = createContactSchema(t.errors).safeParse(values);
     if (!parsed.success) {
       const fieldErrors = fieldErrorsFrom(parsed.error);
       setErrors(fieldErrors);
@@ -94,7 +98,11 @@ export function ContactForm({
       if (!response.ok) {
         trackEvent("contact_form_failed");
         setStatus("error");
-        setServerMessage(message || t.genericError);
+        // The server answers in French: other languages get their own
+        // wording of the same thing.
+        setServerMessage(
+          locale === "fr" ? message || t.genericError : t.genericError,
+        );
         return;
       }
 
@@ -110,33 +118,31 @@ export function ContactForm({
 
   if (status === "sent") {
     return (
-      <div role="status" className="border border-ink/10 bg-surface p-8">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 bg-sand-soft">
+      <div
+        role="status"
+        className="in flex flex-col items-start gap-3.5 rounded-card border border-line-strong p-[clamp(24px,4vw,40px)]"
+      >
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-soft">
           <Check aria-hidden="true" className="h-5 w-5 text-ink" />
         </div>
-        <h3 className="mt-5 font-display text-headline-md text-ink">
+        <h3 className="text-[1.6rem] leading-[1.2] font-semibold">
           {t.successTitle}
         </h3>
-        <p className="mt-3 text-ink-muted">{t.successText}</p>
-        <button
+        <p className="text-ink-muted">{t.successText}</p>
+        <Button
           type="button"
+          variant="secondary"
           onClick={() => setStatus("idle")}
-          className="link-underline mt-6 text-sm font-medium text-ink"
         >
           {t.writeAnother}
-        </button>
+        </Button>
       </div>
     );
   }
 
   return (
-    <form
-      ref={formRef}
-      onSubmit={onSubmit}
-      noValidate
-      className="border border-ink/10 bg-surface p-6 sm:p-8"
-    >
-      <div className="flex flex-col gap-5">
+    <form ref={formRef} onSubmit={onSubmit} noValidate>
+      <div className="flex flex-col gap-[18px]">
         <Field
           label={t.fields.name}
           name="name"
@@ -157,13 +163,14 @@ export function ContactForm({
         />
 
         <div>
-          <label htmlFor="message" className="mark block text-ink-muted">
+          <label htmlFor="message" className={LABEL_CLASS}>
             {t.messageLabel}
           </label>
           <textarea
             id="message"
             name="message"
             rows={6}
+            required
             value={values.message}
             onChange={(event) => update("message", event.target.value)}
             aria-invalid={errors.message ? true : undefined}
@@ -172,7 +179,7 @@ export function ContactForm({
             className={cn(
               FIELD_CLASS,
               "mt-2 resize-y",
-              errors.message ? "border-danger" : "border-ink/20",
+              errors.message ? "border-danger" : "border-line-strong",
             )}
           />
           {errors.message ? (
@@ -204,13 +211,14 @@ export function ContactForm({
               id="consent"
               name="consent"
               type="checkbox"
+              required
               checked={values.consent}
               onChange={(event) => update("consent", event.target.checked)}
               aria-invalid={errors.consent ? true : undefined}
               aria-describedby={errors.consent ? "consent-error" : undefined}
-              className="mt-0.5 h-5 w-5 shrink-0 accent-[color:var(--color-ink)]"
+              className="mt-0.5 h-5 w-5 shrink-0 accent-ink"
             />
-            <span className="text-sm leading-relaxed text-ink-muted">
+            <span className="text-[0.9rem] text-ink-muted">
               {t.fields.consent}{" "}
               <Link
                 href={path("privacy", locale)}
@@ -231,9 +239,9 @@ export function ContactForm({
         {status === "error" ? (
           <p
             role="alert"
-            className="rounded-lg border border-danger/25 bg-danger-soft px-4 py-3 text-sm text-danger"
+            className="rounded-card border border-danger/25 bg-danger-soft px-4 py-3 text-sm text-danger"
           >
-            {serverMessage} Vous pouvez aussi m’écrire à{" "}
+            {serverMessage} {t.errorFallback}{" "}
             <a href={emailHref} className="link-underline font-medium">
               {siteConfig.email}
             </a>
@@ -244,7 +252,6 @@ export function ContactForm({
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <Button
             type="submit"
-            size="lg"
             disabled={status === "sending"}
             className="w-full sm:w-auto"
           >
@@ -257,7 +264,7 @@ export function ContactForm({
               t.submit
             )}
           </Button>
-          <p className="text-sm text-ink-subtle">{t.replyHint}</p>
+          <p className="text-ink-muted">{t.replyHint}</p>
         </div>
       </div>
     </form>
@@ -283,13 +290,14 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={name} className="mark block text-ink-muted">
+      <label htmlFor={name} className={LABEL_CLASS}>
         {label}
       </label>
       <input
         id={name}
         name={name}
         type={type}
+        required
         value={value}
         autoComplete={autoComplete}
         onChange={(event) => onChange(event.target.value)}
@@ -298,7 +306,7 @@ function Field({
         className={cn(
           FIELD_CLASS,
           "mt-2",
-          error ? "border-danger" : "border-ink/20",
+          error ? "border-danger" : "border-line-strong",
         )}
       />
       {error ? (

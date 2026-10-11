@@ -1,5 +1,7 @@
 export type Service = {
   title: string;
+  /** A shorter name, for labels with little room. Defaults to the title. */
+  short?: string;
   description: string;
   exampleSlug?: string;
 };
@@ -19,11 +21,13 @@ export const services: Service[] = [
   },
   {
     title: "Applications web",
+    short: "Apps web",
     description: "Outils métier, plateformes, services sur mesure.",
     exampleSlug: "wooskill",
   },
   {
     title: "Applications mobiles",
+    short: "Apps mobiles",
     description:
       "iOS et Android, avec les notifications, sur une seule base de code.",
     exampleSlug: "janaza-jamaa",

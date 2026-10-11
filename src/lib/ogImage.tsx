@@ -21,7 +21,7 @@ export function renderOgImage({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        backgroundColor: "#f4f1ea",
+        backgroundColor: "#f3f3f2",
         padding: "72px 80px",
         fontFamily: "sans-serif",
       }}
@@ -68,7 +68,7 @@ export function renderOgImage({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          borderTop: "1px solid #cbc0ab",
+          borderTop: "1px solid #cdd2d7",
           paddingTop: 28,
           fontSize: 26,
           color: "#22323f",

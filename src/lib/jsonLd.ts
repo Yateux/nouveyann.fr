@@ -1,10 +1,12 @@
 import { isPlaceholder, profileUrls, siteConfig } from "@/data/site";
 import type { Project } from "@/data/projects";
 import { getCategories } from "@/i18n/getProjects";
-import { technologies } from "@/data/expertise";
+import { services, technologies } from "@/data/expertise";
+import { servicesEn } from "@/data/expertise.en";
 import {
   defaultLocale,
   htmlLang,
+  path,
   projectPath,
   type Locale,
 } from "@/i18n/config";
@@ -24,6 +26,7 @@ export function personJsonLd(locale: Locale = defaultLocale) {
     "@type": "Person",
     name: siteConfig.name,
     jobTitle: getDictionary(locale).jsonLd.jobTitle,
+    description: getDictionary(locale).home.metaDescription,
     url: siteConfig.url,
     email: `mailto:${siteConfig.email}`,
     address: {
@@ -67,6 +70,7 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
 export function creativeWorkJsonLd(
   project: Project,
   locale: Locale = defaultLocale,
+  image?: string | null,
 ) {
   return {
     "@context": "https://schema.org",
@@ -78,6 +82,52 @@ export function creativeWorkJsonLd(
     inLanguage: htmlLang[locale],
     creator: { "@type": "Person", name: siteConfig.name, url: siteConfig.url },
     keywords: project.tech.join(", "),
+    ...(image ? { image: `${siteConfig.url}${image}` } : {}),
     ...(project.year ? { dateCreated: project.year } : {}),
+  };
+}
+
+export function projectListJsonLd(
+  projects: Project[],
+  locale: Locale = defaultLocale,
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: projects.map((project, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: project.name,
+      url: `${siteConfig.url}${projectPath(project.slug, locale)}`,
+    })),
+  };
+}
+
+export function servicesJsonLd(locale: Locale = defaultLocale) {
+  const list = locale === "fr" ? services : servicesEn;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: siteConfig.name,
+    url: `${siteConfig.url}${path("expertise", locale)}`,
+    areaServed: { "@type": "Country", name: "France" },
+    address: {
+      "@type": "PostalAddress",
+      addressRegion: siteConfig.region,
+      addressCountry: siteConfig.country,
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: getDictionary(locale).home.capabilitiesLabel,
+      itemListElement: list.map((service) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: service.title,
+          description: service.description,
+        },
+      })),
+    },
   };
 }

@@ -21,6 +21,9 @@ const mono = JetBrains_Mono({
   weight: ["500"],
   variable: "--font-mono-face",
   display: "swap",
+  // Small labels only, never the first thing on screen: no need to fetch it
+  // ahead of the text and the captures.
+  preload: false,
 });
 
 export const revalidate = 86_400;
@@ -73,9 +76,20 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f3f3f4",
-  colorScheme: "light",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0c1218" },
+  ],
+  colorScheme: "light dark",
 };
+
+// Runs before the first paint, so the page never flashes the wrong theme: the
+// visitor's saved choice if there is one, otherwise the system setting. The
+// key matches THEME_STORAGE_KEY in ThemeToggle. The same goes for the
+// "pause animations" choice (MOTION_STORAGE_KEY in lib/motion). Last, the
+// document language: the server marks every page as French, so English pages
+// are corrected here, before anything reads them.
+const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.dataset.theme=t;if(localStorage.getItem("motion")==="reduce"){document.documentElement.dataset.motion="reduce"}}catch(e){}if(/^\\/en(\\/|$)/.test(location.pathname)){document.documentElement.lang="en"}})()`;
 
 export default function RootLayout({
   children,
@@ -83,13 +97,18 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
+      // Smooth scrolling is for in-page jumps only: with this attribute Next
+      // switches it off while navigating, so a new page opens at the top
+      // instead of scrolling up to it.
+      data-scroll-behavior="smooth"
       className={`${body.variable} ${display.variable} ${mono.variable}`}
+      // The theme script sets data-theme before React takes over.
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="min-h-dvh antialiased" suppressHydrationWarning>
-        <noscript>
-          <style>{`[data-reveal]{opacity:1 !important;transform:none !important}`}</style>
-        </noscript>
-
         {children}
 
         <Analytics />

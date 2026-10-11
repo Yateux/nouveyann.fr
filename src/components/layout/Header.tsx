@@ -1,21 +1,26 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, Menu } from "lucide-react";
+import { Phone } from "lucide-react";
 import { siteConfig } from "@/data/site";
 import {
   defaultLocale,
   englishEnabled,
+  locales,
   path,
   type Locale,
 } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { getNav, otherLocale, switchPath } from "@/i18n/nav";
+import { getNav, switchPath } from "@/i18n/nav";
 import { trackNamed } from "@/lib/analytics";
-import { MobileMenu } from "@/components/layout/MobileMenu";
+import { calendlyHref } from "@/lib/links";
+import { Container } from "@/components/ui/Container";
+import { NewTab } from "@/components/ui/NewTab";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { TrackedLink } from "@/components/ui/TrackedLink";
 import { cn } from "@/lib/cn";
 
 function Mark({ logo }: { logo: string | null }) {
@@ -24,22 +29,26 @@ function Mark({ logo }: { logo: string | null }) {
       <Image
         src={logo}
         alt=""
-        width={32}
-        height={32}
-        className="h-8 w-8"
-        priority
+        width={34}
+        height={34}
+        className="h-[34px] w-[34px] rounded-tile"
+        loading="eager"
       />
     );
   }
   return (
     <span
       aria-hidden="true"
-      className="flex h-8 w-8 items-center justify-center bg-ink text-[0.6875rem] font-semibold text-canvas"
+      className="grid h-[34px] w-[34px] place-items-center rounded-tile bg-ink text-[0.8rem] font-bold text-on-ink"
     >
       YN
     </span>
   );
 }
+
+const LANGUAGE_PILL =
+  "flex h-[34px] min-w-[34px] items-center justify-center rounded-full px-2 sm:min-w-[38px] sm:px-2.5 " +
+  "text-[0.78rem] font-semibold tracking-[0.04em] uppercase transition-colors duration-200";
 
 export function Header({
   logo,
@@ -49,117 +58,147 @@ export function Header({
   locale?: Locale;
 }) {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const toggleRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const closeMenu = useCallback(() => {
-    setMenuOpen(false);
-    toggleRef.current?.focus();
-  }, []);
+  const navRef = useRef<HTMLElement>(null);
+  const indicatorRef = useRef<HTMLSpanElement>(null);
 
   const t = getDictionary(locale);
   const nav = getNav(locale);
-  const other = otherLocale(locale);
+
+  // The underline slides to the current section. It is placed by hand rather
+  // than through state, so navigating never re-renders the bar twice.
+  useEffect(() => {
+    const element = navRef.current;
+    const indicator = indicatorRef.current;
+    if (!element || !indicator) return;
+
+    const place = () => {
+      const link = element.querySelector<HTMLElement>('a[aria-current="page"]');
+      if (!link) {
+        indicator.style.opacity = "0";
+        return;
+      }
+      indicator.style.width = `${link.offsetWidth}px`;
+      indicator.style.transform = `translateX(${link.offsetLeft}px)`;
+      indicator.style.opacity = "1";
+    };
+
+    place();
+    void document.fonts?.ready.then(place);
+    window.addEventListener("resize", place);
+    // The slide is switched on after the first placement, so loading a page
+    // does not animate the underline in from the left.
+    const frame = requestAnimationFrame(() =>
+      element.setAttribute("data-ready", ""),
+    );
+
+    return () => {
+      window.removeEventListener("resize", place);
+      cancelAnimationFrame(frame);
+    };
+  }, [pathname, locale]);
 
   return (
-    <>
-      <header
-        className={cn(
-          "fixed inset-x-0 top-0 z-50 bg-canvas/80 backdrop-blur-md transition-shadow duration-200",
-          scrolled && "shadow-[0_1px_0_0_rgba(34,50,63,0.1)]",
-        )}
-      >
-        <div className="mx-auto w-full max-w-page px-5 sm:px-8 lg:px-10">
-          <div className="relative flex h-20 items-center justify-between border-b border-ink/10">
-            <Link
-              href={path("home", locale)}
-              className="flex items-center gap-2.5"
-            >
-              <Mark logo={logo} />
-              <span className="mark tracking-[0.2em] text-ink">
-                {siteConfig.name}
-              </span>
-            </Link>
+    <header className="z-30 border-b border-rule bg-canvas lg:sticky lg:top-0">
+      {/* One line at every width: the controls never drop under the name. */}
+      <Container className="flex items-center justify-between gap-x-3 py-3.5 sm:gap-x-6">
+        <Link
+          href={path("home", locale)}
+          className="flex min-w-0 items-center gap-2 font-display font-semibold whitespace-nowrap sm:gap-3"
+        >
+          <Mark logo={logo} />
+          <span className="max-[339px]:sr-only">{siteConfig.name}</span>
+        </Link>
 
-            <nav
-              aria-label={t.nav.mainNavigation}
-              className="absolute left-1/2 hidden -translate-x-1/2 md:block"
-            >
-              <ul className="flex items-center gap-8">
-                {nav.map((link) => {
-                  const active =
-                    pathname === link.href ||
-                    pathname.startsWith(`${link.href}/`);
-                  return (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        aria-current={active ? "page" : undefined}
-                        className={cn(
-                          "mark pb-1 transition-colors",
-                          active
-                            ? "border-b border-ink text-ink"
-                            : "border-b border-transparent text-ink-subtle hover:text-ink",
-                        )}
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
-
-            <div className="flex items-center gap-3">
-              {englishEnabled ? (
-                <Link
-                  href={switchPath(pathname, locale)}
-                onClick={() => trackNamed("language_switch", { to: other })}
-                  hrefLang={other}
-                  className="mark hidden text-ink-subtle transition-colors hover:text-ink md:inline-flex"
-                >
-                  <span aria-hidden="true" className="mr-2">{t.nav.switchFlag}</span>
-                  {t.nav.switchLanguage}
-                </Link>
-              ) : null}
-
+        <nav
+          ref={navRef}
+          aria-label={t.nav.mainNavigation}
+          // Phones and small tablets navigate from the bar at the bottom.
+          className="nav relative flex gap-7 text-[0.95rem] max-lg:hidden"
+        >
+          {nav.map((link) => {
+            const active =
+              pathname === link.href || pathname.startsWith(`${link.href}/`);
+            return (
               <Link
-                href={path("contact", locale)}
-                aria-label="Me contacter"
-                className="hidden h-9 w-9 items-center justify-center rounded-full bg-ink text-canvas transition-colors hover:bg-ink-hover md:flex"
+                key={link.href}
+                href={link.href}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "py-2.5 transition-colors duration-150 hover:text-ink",
+                  active ? "text-ink" : "text-ink-muted",
+                )}
               >
-                <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+                {link.label}
               </Link>
+            );
+          })}
+          <span ref={indicatorRef} aria-hidden="true" className="nav-ind" />
+        </nav>
 
-              <button
-                ref={toggleRef}
-                type="button"
-                onClick={() => setMenuOpen(true)}
-                aria-label="Ouvrir le menu"
-                aria-expanded={menuOpen}
-                className="-mr-2 flex h-11 w-11 items-center justify-center text-ink transition-opacity hover:opacity-70 md:hidden"
-              >
-                <Menu aria-hidden="true" className="h-5 w-5" />
-              </button>
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <ThemeToggle toDark={t.nav.toDark} toLight={t.nav.toLight} />
+
+          {englishEnabled ? (
+            <div
+              role="group"
+              aria-label={t.nav.language}
+              className="flex rounded-full border border-line-strong p-0.5"
+            >
+              {locales.map((code) =>
+                code === locale ? (
+                  <span
+                    key={code}
+                    aria-current="true"
+                    className={cn(LANGUAGE_PILL, "bg-ink text-on-ink")}
+                  >
+                    {code}
+                  </span>
+                ) : (
+                  <Link
+                    key={code}
+                    href={switchPath(pathname, locale)}
+                    hrefLang={code}
+                    lang={code}
+                    aria-label={`${code.toUpperCase()}, ${t.nav.switchLanguage}`}
+                    onClick={() => trackNamed("language_switch", { to: code })}
+                    className={cn(
+                      LANGUAGE_PILL,
+                      "text-ink-muted hover:text-ink",
+                    )}
+                  >
+                    {code}
+                  </Link>
+                ),
+              )}
             </div>
-          </div>
-        </div>
-      </header>
+          ) : null}
 
-      <MobileMenu
-        locale={locale}
-        open={menuOpen}
-        onClose={closeMenu}
-        pathname={pathname}
-      />
-    </>
+          <TrackedLink
+            event="booking_click"
+            payload={{ from: "header" }}
+            href={calendlyHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-solid min-h-10 px-4 text-[0.88rem] max-[560px]:hidden"
+          >
+            {t.cta.book}
+            <NewTab label={t.nav.newTab} />
+          </TrackedLink>
+
+          {/* Too narrow for the label: the same call, as an icon. */}
+          <TrackedLink
+            event="booking_click"
+            payload={{ from: "header" }}
+            href={calendlyHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${t.cta.book} (${t.nav.newTab})`}
+            className="btn btn-solid min-h-[38px] w-[38px] p-0 min-[561px]:hidden"
+          >
+            <Phone aria-hidden="true" className="h-4 w-4" />
+          </TrackedLink>
+        </div>
+      </Container>
+    </header>
   );
 }

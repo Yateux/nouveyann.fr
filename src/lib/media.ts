@@ -36,20 +36,20 @@ function publicAsset(relativePath: string): string | null {
 
 export type ProjectMedia = {
   cover: string | null;
-  gallery: { src: string; label: string }[];
+  gallery: { src: string; kind: "desktop" | "mobile" }[];
 };
 
-const GALLERY = [
-  { file: "desktop.webp", label: "Vue sur ordinateur" },
-  { file: "mobile.webp", label: "Vue sur mobile" },
+const GALLERY: { file: string; kind: "desktop" | "mobile" }[] = [
+  { file: "desktop.webp", kind: "desktop" },
+  { file: "mobile.webp", kind: "mobile" },
 ];
 
 export function getProjectMedia(slug: string): ProjectMedia {
   const cover = publicAsset(`/projects/${slug}/cover.webp`);
-  const gallery = GALLERY.map(({ file, label }) => {
+  const gallery = GALLERY.flatMap(({ file, kind }) => {
     const src = publicAsset(`/projects/${slug}/${file}`);
-    return src ? { src, label } : null;
-  }).filter((item): item is { src: string; label: string } => item !== null);
+    return src ? [{ src, kind }] : [];
+  });
 
   return { cover, gallery };
 }

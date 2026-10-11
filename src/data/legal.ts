@@ -1,7 +1,7 @@
 import type { Locale } from "@/i18n/config";
 import { siteConfig } from "@/data/site";
 
-export type LegalSection = { title: string; paragraphs: string[] };
+type LegalSection = { title: string; paragraphs: string[] };
 export type LegalPageContent = {
   metaTitle: string;
   metaDescription: string;
