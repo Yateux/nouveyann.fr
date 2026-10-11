@@ -1,26 +1,39 @@
 import { z } from "zod";
+import { getDictionary } from "@/i18n/dictionaries";
 
-export const contactSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(2, "Indiquez votre nom.")
-    .max(80, "Ce nom est trop long."),
-  email: z
-    .string()
-    .trim()
-    .max(160, "Cette adresse est trop longue.")
-    .pipe(z.email("Cette adresse e-mail semble incorrecte.")),
-  message: z
-    .string()
-    .trim()
-    .min(20, "Décrivez votre projet en quelques mots (20 caractères minimum).")
-    .max(4000, "Ce message est trop long (4000 caractères maximum)."),
-  consent: z.literal(true, {
-    message: "Merci de cocher cette case pour envoyer votre message.",
-  }),
-  website: z.string().max(500).optional(),
-});
+export type ContactMessages = {
+  name: string;
+  nameLong: string;
+  email: string;
+  emailLong: string;
+  message: string;
+  messageLong: string;
+  consent: string;
+};
+
+/** The form's rules, with the error messages of the page's language. */
+export function createContactSchema(messages: ContactMessages) {
+  return z.object({
+    name: z.string().trim().min(2, messages.name).max(80, messages.nameLong),
+    email: z
+      .string()
+      .trim()
+      .max(160, messages.emailLong)
+      .pipe(z.email(messages.email)),
+    message: z
+      .string()
+      .trim()
+      .min(20, messages.message)
+      .max(4000, messages.messageLong),
+    consent: z.literal(true, { message: messages.consent }),
+    website: z.string().max(500).optional(),
+  });
+}
+
+// The server checks the same rules; its own replies stay in French.
+export const contactSchema = createContactSchema(
+  getDictionary("fr").contact.errors,
+);
 
 export type ContactFormValues = {
   name: string;

@@ -10,24 +10,24 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <Container className="flex min-h-[50vh] flex-col justify-center pt-10 pb-24 lg:pt-16">
-      <p className="mark text-ink-subtle">Erreur 404</p>
-      <h1 className="mt-8 max-w-2xl font-display text-display-lg text-ink">
-        Cette page n’existe pas.
-      </h1>
-      <p className="mt-6 max-w-lg text-body-lg text-ink-muted">
+    <Container className="in flex min-h-[50vh] flex-col justify-center gap-[18px] pt-[clamp(36px,6vw,80px)]">
+      <h1 className="max-w-[18ch] text-display-lg">Cette page n’existe pas.</h1>
+      <p
+        className="max-w-[38rem] text-body-lg text-ink-muted"
+        style={{ "--i": 1 } as React.CSSProperties}
+      >
         Le lien est peut-être ancien, ou l’adresse comporte une erreur. Le
         travail, lui, est toujours là.
       </p>
-      <div className="mt-9 flex flex-wrap gap-3">
-        <ButtonLink href="/projets" size="lg">
+      <div
+        className="mt-2 flex flex-wrap gap-3"
+        style={{ "--i": 2 } as React.CSSProperties}
+      >
+        <ButtonLink href="/projets">
           Voir mon travail
-          <ArrowRight
-            aria-hidden="true"
-            className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-          />
+          <ArrowRight aria-hidden="true" className="ico" />
         </ButtonLink>
-        <ButtonLink href="/" variant="secondary" size="lg">
+        <ButtonLink href="/" variant="secondary">
           Retour à l’accueil
         </ButtonLink>
       </div>

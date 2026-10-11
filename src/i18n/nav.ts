@@ -8,15 +8,15 @@ export function getNav(locale: Locale): NavLink[] {
 
   return [
     { href: path("projects", locale), label: t.projects },
+    { href: path("expertise", locale), label: t.expertise },
     { href: path("about", locale), label: t.about },
     { href: path("contact", locale), label: t.contact },
   ];
 }
 
-export function otherLocale(locale: Locale): Locale {
+function otherLocale(locale: Locale): Locale {
   return locale === "fr" ? "en" : "fr";
 }
-
 
 export function switchPath(pathname: string, locale: Locale): string {
   const target = otherLocale(locale);

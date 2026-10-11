@@ -1,12 +1,16 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
-import { Container } from "@/components/ui/Container";
-import { Reveal } from "@/components/ui/Reveal";
+import { ArrowRight } from "lucide-react";
+import { Arm } from "@/components/ui/Arm";
 import { calendlyHref, emailHref } from "@/lib/links";
 import { TrackedLink } from "@/components/ui/TrackedLink";
 import { TrackedAnchor } from "@/components/ui/TrackedAnchor";
+import { NewTab } from "@/components/ui/NewTab";
 import { siteConfig } from "@/data/site";
 import { defaultLocale, path, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+
+const step = (value: number) => ({ "--i": value }) as CSSProperties;
 
 export function CTA({
   locale = defaultLocale,
@@ -17,51 +21,62 @@ export function CTA({
   title?: React.ReactNode;
   description?: string;
 }) {
-  const t = getDictionary(locale).cta;
+  const t = getDictionary(locale);
 
   return (
-    <section className="pt-10 pb-20 lg:pt-14 lg:pb-section">
-      <Container className="text-center">
-        <Reveal>
-          <h2 className="font-display text-display-lg text-ink">
-            {title ?? t.title}
-          </h2>
+    <Arm
+      as="section"
+      className="sec mx-auto w-full max-w-page px-5 sm:px-8 lg:px-12"
+    >
+      <div className="cta">
+        <h2
+          style={step(0)}
+          className="max-w-[14ch] text-[clamp(2.2rem,6vw,4.6rem)] leading-[1.03] font-bold tracking-[-0.035em]"
+        >
+          {title ?? t.cta.title}
+        </h2>
 
-          <p className="mx-auto mt-8 max-w-md text-body-md text-ink-muted">
-            {description ?? t.description}
-          </p>
+        <p style={step(1)} className="max-w-[30rem] text-on-block-muted">
+          {description ?? t.cta.description}
+          <br />
+          {t.contact.replyHint}
+        </p>
 
-          <div className="mt-10 flex flex-row items-center justify-center gap-3 sm:gap-4">
-            <TrackedLink
-              event="booking_click"
-              payload={{ from: "cta" }}
-              href={calendlyHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-14 flex-1 items-center justify-center bg-ink px-4 text-label-sm whitespace-nowrap text-canvas uppercase transition-opacity duration-300 hover:opacity-85 sm:h-16 sm:flex-none sm:px-10"
-            >
-              {t.book}
-            </TrackedLink>
-            <Link
-              href={path("contact", locale)}
-              className="inline-flex h-14 flex-1 items-center justify-center border border-ink/20 px-4 text-label-sm whitespace-nowrap text-ink uppercase transition-colors duration-300 hover:border-ink sm:h-16 sm:flex-none sm:px-10"
-            >
-              {t.write}
-            </Link>
-          </div>
+        <div
+          style={step(2)}
+          className="flex max-w-full justify-center gap-3 max-[480px]:w-full max-[480px]:gap-2"
+        >
+          <TrackedLink
+            event="booking_click"
+            payload={{ from: "cta" }}
+            href={calendlyHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-chalk whitespace-nowrap"
+          >
+            {t.cta.book}
+            <NewTab label={t.nav.newTab} />
+            <ArrowRight aria-hidden="true" className="ico" />
+          </TrackedLink>
+          <Link
+            href={path("contact", locale)}
+            className="btn btn-chalk-line whitespace-nowrap"
+          >
+            {t.cta.write}
+          </Link>
+        </div>
 
-          <p className="mt-10">
-            <TrackedAnchor
-              event="email_click"
-              payload={{ from: "cta" }}
-              href={emailHref}
-              className="link-underline mark text-ink-muted hover:text-ink"
-            >
-              {siteConfig.email}
-            </TrackedAnchor>
-          </p>
-        </Reveal>
-      </Container>
-    </section>
+        <p style={step(3)} className="text-[0.9rem]">
+          <TrackedAnchor
+            event="email_click"
+            payload={{ from: "cta" }}
+            href={emailHref}
+            className="font-mono font-medium"
+          >
+            <span className="link-underline">{siteConfig.email}</span>
+          </TrackedAnchor>
+        </p>
+      </div>
+    </Arm>
   );
 }

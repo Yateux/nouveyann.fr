@@ -30,8 +30,11 @@ const copy: Record<string, { title: string; description: string }> = {
   },
 };
 
+// The English titles are short enough to label anything: the French short
+// name is dropped rather than carried over.
 export const servicesEn: Service[] = services.map((service) => ({
   ...service,
+  short: undefined,
   ...(copy[service.title] ?? {}),
 }));
 

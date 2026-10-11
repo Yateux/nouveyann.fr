@@ -46,6 +46,9 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   images: {
     formats: ["image/avif", "image/webp"],
+    // The captures only change with a deployment: keep the optimised
+    // versions a month instead of regenerating them every four hours.
+    minimumCacheTTL: 2_678_400,
   },
 
 

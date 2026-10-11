@@ -16,6 +16,7 @@ export const ogLocale: Record<Locale, string> = {
 export const routes = {
   home: { fr: "/", en: "/en" },
   projects: { fr: "/projets", en: "/en/projects" },
+  expertise: { fr: "/expertise", en: "/en/expertise" },
   about: { fr: "/a-propos", en: "/en/about" },
   contact: { fr: "/contact", en: "/en/contact" },
   legalNotice: { fr: "/mentions-legales", en: "/en/legal-notice" },

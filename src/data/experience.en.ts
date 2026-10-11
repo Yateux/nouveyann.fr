@@ -60,7 +60,7 @@ const companies: Record<string, string> = {
   "Plateforme médicale": "Medical platform",
 };
 
-export const jobsEn: Job[] = jobs.map((job) => {
+const jobsEn: Job[] = jobs.map((job) => {
   const translated = copy[job.period];
   return {
     ...job,

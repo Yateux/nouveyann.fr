@@ -14,14 +14,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   });
 
-  const pages = (["home", "projects", "about", "contact"] as const).flatMap(
-    (key) =>
-      locales.map((locale) => ({
-        url: url(path(key, locale)),
-        changeFrequency: "monthly" as const,
-        priority: key === "home" ? 1 : key === "projects" ? 0.9 : 0.8,
-        alternates: alternates((l) => path(key, l)),
-      })),
+  const pages = (
+    ["home", "projects", "expertise", "about", "contact"] as const
+  ).flatMap((key) =>
+    locales.map((locale) => ({
+      url: url(path(key, locale)),
+      changeFrequency: "monthly" as const,
+      priority: key === "home" ? 1 : key === "projects" ? 0.9 : 0.8,
+      alternates: alternates((l) => path(key, l)),
+    })),
   );
 
   const caseStudies = projects.flatMap((project) =>

@@ -1,12 +1,16 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
+import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { Label } from "@/components/ui/Label";
 import { ContactForm } from "@/components/ui/ContactForm";
+import { CopyButton } from "@/components/ui/CopyButton";
+import { NewTab } from "@/components/ui/NewTab";
 import { JsonLd } from "@/components/ui/JsonLd";
+import { TrackedLink } from "@/components/ui/TrackedLink";
+import { TrackedAnchor } from "@/components/ui/TrackedAnchor";
 import { siteConfig } from "@/data/site";
 import { calendlyHref, emailHref } from "@/lib/links";
-import { TrackedLink } from "@/components/ui/TrackedLink";
 import { breadcrumbJsonLd } from "@/lib/jsonLd";
 import { getDictionary } from "@/i18n/dictionaries";
 import { path } from "@/i18n/config";
@@ -29,6 +33,8 @@ export async function generateMetadata({
   });
 }
 
+const step = (value: number) => ({ "--i": value }) as CSSProperties;
+
 export default async function ContactPage({
   params,
 }: {
@@ -36,78 +42,81 @@ export default async function ContactPage({
 }) {
   const locale = await resolveLocale(params);
   const t = getDictionary(locale);
-  const FACTS = [
-    { term: t.contact.infoEmail, value: siteConfig.email, href: emailHref },
-    { term: t.contact.infoWhere, value: t.contact.infoWhereValue },
-    { term: t.contact.infoReply, value: t.contact.infoReplyValue },
-  ];
 
   return (
     <>
-      <PageHeader
-        label={t.contact.label}
-        title={t.contact.title}
-        lead={t.contact.lead}
-      />
+      <PageHeader title={t.contact.title} lead={t.contact.lead} />
 
-      <Container className="pb-20 lg:pb-section">
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-gutter">
-          <div className="flex flex-col gap-8">
-            <div className="border border-ink/10 bg-surface p-6 sm:p-8">
-              <Label as="h2">{t.contact.bookLabel}</Label>
-              <p className="mt-5 font-display text-headline-md text-ink">
-                {t.contact.bookTitle}
-              </p>
-              <p className="mt-3 text-body-md text-ink-muted">
-                {t.contact.bookText}
-              </p>
-              <TrackedLink
-                event="booking_click"
-                payload={{ from: "contact" }}
-                href={calendlyHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-flex h-14 items-center justify-center bg-ink px-8 text-label-sm whitespace-nowrap text-canvas uppercase transition-opacity duration-300 hover:opacity-85"
-              >
-                {t.contact.bookCta}
-              </TrackedLink>
-            </div>
+      <Container className="grid items-start gap-[clamp(32px,6vw,96px)] pt-[clamp(28px,4vw,56px)] min-[901px]:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+        {/* The quick way in, as the one inverted block of the page: the call,
+            then how else to reach him. Same card as on the about page. */}
+        <aside className="idcard min-[901px]:sticky min-[901px]:top-24">
+          <div className="flex flex-col items-start gap-3.5" style={step(0)}>
+            <h2 className="text-[clamp(1.5rem,2.6vw,2rem)] leading-[1.15] font-semibold tracking-[-0.02em]">
+              {t.contact.bookTitle}
+            </h2>
+            <p className="idcard-muted">{t.contact.bookText}</p>
+            <TrackedLink
+              event="booking_click"
+              payload={{ from: "contact" }}
+              href={calendlyHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-chalk mt-1"
+            >
+              {t.contact.bookCta}
+              <NewTab label={t.nav.newTab} />
+              <ArrowRight aria-hidden="true" className="ico" />
+            </TrackedLink>
+          </div>
 
-            <dl className="grid gap-px border border-ink/10 bg-ink/10">
-              {FACTS.map((fact) => (
-                <div
-                  key={fact.term}
-                  className="flex flex-col gap-1 bg-canvas p-5 sm:flex-row sm:gap-6"
+          <dl style={step(1)}>
+            <div className="idcard-row">
+              <dt className="idcard-muted text-[0.85rem]">
+                {t.contact.infoEmail}
+              </dt>
+              <dd className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                <TrackedAnchor
+                  event="email_click"
+                  payload={{ from: "contact" }}
+                  href={emailHref}
+                  className="font-mono text-[0.95rem] font-medium"
                 >
-                  <dt className="mark w-28 shrink-0 text-ink-subtle">
-                    {fact.term}
-                  </dt>
-                  <dd className="text-body-md text-ink">
-                    {fact.href ? (
-                      <a href={fact.href} className="link-underline">
-                        {fact.value}
-                      </a>
-                    ) : (
-                      fact.value
-                    )}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          <div>
-            <Label as="h2">{t.contact.writeLabel}</Label>
-            <p className="mt-5 font-display text-headline-md text-ink">
-              {t.contact.writeTitle}
-            </p>
-            <p className="mt-3 text-body-md text-ink-muted">
-              {t.contact.writeText}
-            </p>
-            <div className="mt-6">
-              <ContactForm locale={locale} />
+                  <span className="link-underline">{siteConfig.email}</span>
+                </TrackedAnchor>
+                <CopyButton
+                  value={siteConfig.email}
+                  label={t.contact.copy}
+                  doneLabel={t.contact.copied}
+                  onBlock
+                />
+              </dd>
             </div>
-          </div>
+            <div className="idcard-row">
+              <dt className="idcard-muted text-[0.85rem]">
+                {t.contact.infoWhere}
+              </dt>
+              <dd className="font-display text-[1.05rem] font-semibold">
+                {t.contact.infoWhereValue}
+              </dd>
+            </div>
+            <div className="idcard-row">
+              <dt className="idcard-muted text-[0.85rem]">
+                {t.contact.infoReply}
+              </dt>
+              <dd className="font-display text-[1.05rem] font-semibold">
+                {t.contact.infoReplyValue}
+              </dd>
+            </div>
+          </dl>
+        </aside>
+
+        <div className="flex min-w-0 flex-col gap-[18px]">
+          <h2 className="text-[clamp(1.5rem,2.6vw,2rem)] leading-[1.15] font-semibold tracking-[-0.02em]">
+            {t.contact.writeTitle}
+          </h2>
+          <p className="text-ink-muted">{t.contact.writeText}</p>
+          <ContactForm locale={locale} />
         </div>
       </Container>
 

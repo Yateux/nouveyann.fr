@@ -282,22 +282,3 @@ export const projects: Project[] = [
     },
   },
 ];
-
-export const featuredProjects = projects.filter((project) => project.featured);
-
-export function getProject(slug: string): Project | undefined {
-  return projects.find((project) => project.slug === slug);
-}
-
-export function getProjectNeighbours(slug: string): {
-  previous: Project | null;
-  next: Project | null;
-} {
-  const index = projects.findIndex((project) => project.slug === slug);
-  if (index === -1 || projects.length < 2)
-    return { previous: null, next: null };
-  return {
-    previous: projects[index - 1] ?? projects[projects.length - 1] ?? null,
-    next: projects[index + 1] ?? projects[0] ?? null,
-  };
-}

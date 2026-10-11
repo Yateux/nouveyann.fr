@@ -85,7 +85,9 @@ export function buildMetadata({
       url,
       title: absoluteTitle ? title : `${title} | Yann Nouve`,
       description,
-      images: ["/opengraph-image"],
+      // A case study has its own image, generated beside its page: naming
+      // the site's one here would replace it.
+      ...(slug ? {} : { images: ["/opengraph-image"] }),
     },
     twitter: {
       card: "summary_large_image",

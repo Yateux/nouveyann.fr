@@ -18,19 +18,6 @@ export const siteConfig = {
     "Développeur freelance en Île-de-France. Je conçois et développe sites web, boutiques e-commerce et applications sur mesure. Découvrez mes réalisations.",
 } as const;
 
-export const mainNav = [
-  { href: "/projets", label: "Projets" },
-  { href: "/a-propos", label: "À propos" },
-] as const;
-
-export const legalNav = [
-  { href: "/mentions-legales", label: "Mentions légales" },
-  {
-    href: "/politique-de-confidentialite",
-    label: "Politique de confidentialité",
-  },
-] as const;
-
 export const externalLinks = [
   { label: "LinkedIn", href: siteConfig.linkedin },
   { label: "Malt", href: siteConfig.malt },

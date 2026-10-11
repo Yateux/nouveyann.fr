@@ -1,28 +1,39 @@
+import type { CSSProperties } from "react";
+import { ViewTransition } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Lock } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { Label } from "@/components/ui/Label";
-import { Section } from "@/components/ui/Section";
-import { Reveal } from "@/components/ui/Reveal";
+import { Arm } from "@/components/ui/Arm";
+import { Shot } from "@/components/ui/Shot";
 import { JsonLd } from "@/components/ui/JsonLd";
+import { NewTab } from "@/components/ui/NewTab";
+import { TrackedAnchor } from "@/components/ui/TrackedAnchor";
 import { CTA } from "@/components/sections/CTA";
+import { CaseChapters } from "@/components/sections/CaseChapters";
 import { projects } from "@/data/projects";
 import { getProjectMedia } from "@/lib/media";
 import { breadcrumbJsonLd, creativeWorkJsonLd } from "@/lib/jsonLd";
 import { safeUrl } from "@/lib/safeUrl";
-import { TrackedAnchor } from "@/components/ui/TrackedAnchor";
-import { getCategories, getNeighbours, getProject } from "@/i18n/getProjects";
 import { getDictionary } from "@/i18n/dictionaries";
+import { getCategories, getNeighbours, getProject } from "@/i18n/getProjects";
 import { path, projectPath } from "@/i18n/config";
 import { buildMetadata, resolveLocale } from "@/i18n/page";
-
 
 type Params = { params: Promise<{ locale: string; slug: string }> };
 
 const MAX_DESCRIPTION_LENGTH = 160;
+
+/** The address as a browser shows it: the host, without "www.". */
+function hostOf(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
 
 export function generateStaticParams() {
   return projects.map((project) => ({ locale: "en", slug: project.slug }));
@@ -88,158 +99,171 @@ export default async function ProjectPage({ params }: Params) {
   ];
 
   return (
-    <>
-      <Container className="pt-10 lg:pt-16">
+    <article>
+      <Container className="in flex flex-col gap-4 pt-[clamp(36px,6vw,80px)]">
         <Link
           href={path("projects", locale)}
-          className="group inline-flex items-center gap-2 text-sm text-ink-muted transition-colors hover:text-ink"
+          className="go go-back self-start font-normal text-ink-muted"
         >
-          <ArrowLeft
-            aria-hidden="true"
-            className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1"
-          />
+          <ArrowLeft aria-hidden="true" className="ico" />
           <span className="link-underline">{t.caseStudy.backToProjects}</span>
         </Link>
 
-        <div className="mt-7 max-w-3xl">
-          <Label>{label}</Label>
-          <h1 className="mt-8 font-display text-display-lg text-ink">
-            {project.name}
-          </h1>
-          <p className="mt-5 max-w-2xl text-body-lg text-ink-muted">
-            {project.tagline}
-          </p>
+        <h1
+          style={{ "--i": 1 } as CSSProperties}
+          className="text-[clamp(2.6rem,7vw,5.4rem)] leading-[1.05] font-bold tracking-[-0.035em]"
+        >
+          {project.name}
+        </h1>
 
-          {liveUrl ? (
-            <TrackedAnchor
-              event="live_site_click"
-              payload={{ slug: project.slug }}
-              href={liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group mt-5 inline-flex items-center gap-2 text-sm font-medium text-ink"
-            >
-              <span className="link-underline">{t.caseStudy.viewLive}</span>
-              <ExternalLink aria-hidden="true" className="h-4 w-4" />
-            </TrackedAnchor>
-          ) : null}
-        </div>
+        <p
+          style={{ "--i": 2 } as CSSProperties}
+          className="max-w-[40rem] text-[clamp(1.1rem,1.8vw,1.35rem)] text-ink-muted"
+        >
+          {project.tagline}
+        </p>
+      </Container>
 
-        {media.cover ? (
-          <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-card bg-sand-soft lg:mt-12">
-            <Image
+      <Container className="pt-[clamp(32px,4.5vw,56px)]">
+        <figure className="overflow-hidden rounded-card border border-rule bg-soft">
+          {/* The frame reads as a browser: when the project is online, its
+              address is the way to the live site. */}
+          <figcaption className="flex items-center gap-3 border-b border-rule bg-soft px-3.5 py-2.5 text-[0.85rem] text-ink-muted">
+            <span className="live-dots text-[1rem]" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </span>
+            {liveUrl ? (
+              <>
+                <TrackedAnchor
+                  event="live_site_click"
+                  payload={{ slug: project.slug }}
+                  href={liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="address"
+                >
+                  <Lock aria-hidden="true" className="address-lock" />
+                  <span className="sr-only">{t.caseStudy.viewLive} : </span>
+                  <span className="address-host">{hostOf(liveUrl)}</span>
+                  <NewTab label={t.nav.newTab} />
+                  <ArrowUpRight aria-hidden="true" className="address-go" />
+                </TrackedAnchor>
+                <span className="pill max-[479px]:hidden">
+                  <i aria-hidden="true" />
+                  {t.caseStudy.live}
+                </span>
+              </>
+            ) : (
+              project.name
+            )}
+          </figcaption>
+          <ViewTransition
+            name={`shot-${project.slug}`}
+            share="morph"
+            default="none"
+          >
+            <Shot
               src={media.cover}
               alt={t.projects.previewAlt(project.name)}
-              fill
-              sizes="(max-width: 1279px) 92vw, 1160px"
+              name={project.name}
+              sizes="(max-width: 1247px) 92vw, 1104px"
               priority
-              className="object-cover object-top"
+              className="rounded-none border-0"
             />
-          </div>
-        ) : null}
+          </ViewTransition>
+        </figure>
 
-        <dl className="mt-8 grid gap-x-10 gap-y-6 border-y border-ink/10 py-7 sm:grid-cols-2 lg:grid-cols-4">
+        <dl className="mt-[clamp(24px,3vw,40px)] grid grid-cols-2 gap-x-8 gap-y-4 min-[901px]:grid-cols-4">
           {facts.map((fact) => (
-            <div key={fact.term}>
-              <dt className="mark text-ink-subtle">{fact.term}</dt>
-              <dd className="mt-2 text-[0.9375rem] text-ink">{fact.value}</dd>
+            <div
+              key={fact.term}
+              className="flex flex-col gap-1 border-t border-line-strong pt-3.5"
+            >
+              <dt className="text-[0.9rem] text-ink-muted">{fact.term}</dt>
+              <dd className="font-display text-[1.1rem] leading-[1.3] font-semibold">
+                {fact.value}
+              </dd>
             </div>
           ))}
         </dl>
       </Container>
 
-      <Section spacing="tight">
-        <div className="flex flex-col">
-          {chapters.map((chapter, index) => (
-            <Reveal key={chapter.label} delay={index * 40}>
-              <div className="grid gap-3 border-b border-ink/10 py-7 lg:grid-cols-[16rem_1fr] lg:gap-12">
-                <h2 className="font-display text-headline-md whitespace-nowrap text-ink">
-                  {chapter.label}
-                </h2>
-                <p className="max-w-2xl text-body-md text-ink-muted">
-                  {chapter.text}
-                </p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </Section>
+      <section className="sec">
+        <Container>
+          <CaseChapters chapters={chapters} label={t.caseStudy.chaptersLabel} />
+        </Container>
+      </section>
 
       {media.gallery.length > 0 ? (
-        <Container className="pb-14 lg:pb-16">
-          <h2 className="sr-only">{t.caseStudy.gallery(project.name)}</h2>
-          <div className="grid gap-5 md:grid-cols-2">
+        <section className="sec">
+          <Container className="flex flex-col gap-5">
+            <h2 className="sr-only">{t.caseStudy.gallery(project.name)}</h2>
             {media.gallery.map((shot) => (
-              <Reveal key={shot.src}>
-                <figure>
-                  <div className="relative aspect-[16/10] overflow-hidden rounded-card bg-sand-soft">
-                    <Image
-                      src={shot.src}
-                      alt={`${project.name}, ${shot.label.toLowerCase()}`}
-                      fill
-                      sizes="(max-width: 767px) 92vw, 46vw"
-                      className="object-cover object-top"
-                    />
-                  </div>
-                </figure>
-              </Reveal>
+              <Arm as="figure" key={shot.src}>
+                <div className="gal-shot overflow-hidden rounded-card border border-rule bg-soft">
+                  <Image
+                    src={shot.src}
+                    alt={`${project.name}, ${t.caseStudy.views[shot.kind]}`}
+                    width={1600}
+                    height={900}
+                    sizes="(max-width: 1247px) 92vw, 1104px"
+                    className="h-auto w-full"
+                  />
+                </div>
+              </Arm>
             ))}
-          </div>
-        </Container>
+          </Container>
+        </section>
       ) : null}
 
       {previous || next ? (
-        <Container className="pb-14 lg:pb-16">
-          <nav
-            aria-label={t.caseStudy.navLabel}
-            className="flex items-start justify-between gap-6"
-          >
-            {previous ? (
-              <Link
-                href={projectPath(previous.slug, locale)}
-                className="group flex min-w-0 flex-col gap-1"
-              >
-                <span className="mark inline-flex items-center gap-2 text-ink-subtle">
-                  <ArrowLeft
-                    aria-hidden="true"
-                    className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1"
-                  />
-                  {t.caseStudy.previous}
-                </span>
-                <span className="truncate font-display text-body-lg text-ink sm:text-headline-md">
-                  {previous.name}
-                </span>
-              </Link>
-            ) : (
-              <span />
-            )}
+        <section className="sec">
+          <Container>
+            <nav
+              aria-label={t.caseStudy.navLabel}
+              className="grid border-y border-rule md:grid-cols-2 md:gap-6"
+            >
+              {previous ? (
+                <Link
+                  href={projectPath(previous.slug, locale)}
+                  className="flex min-w-0 flex-col gap-1.5 py-7"
+                >
+                  <span className="go go-back font-normal text-ink-muted">
+                    <ArrowLeft aria-hidden="true" className="ico" />
+                    {t.caseStudy.previous}
+                  </span>
+                  <span className="font-display text-[clamp(1.4rem,3vw,2.4rem)] leading-[1.1] font-semibold tracking-[-0.02em]">
+                    <span className="link-underline">{previous.name}</span>
+                  </span>
+                </Link>
+              ) : (
+                <span className="max-md:hidden" />
+              )}
 
-            {next ? (
-              <Link
-                href={projectPath(next.slug, locale)}
-                className="group flex min-w-0 flex-col items-end gap-1 text-right"
-              >
-                <span className="mark inline-flex items-center gap-2 text-ink-subtle">
-                  {t.caseStudy.next}
-                  <ArrowRight
-                    aria-hidden="true"
-                    className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1"
-                  />
-                </span>
-                <span className="truncate font-display text-body-lg text-ink sm:text-headline-md">
-                  {next.name}
-                </span>
-              </Link>
-            ) : (
-              <span />
-            )}
-          </nav>
-        </Container>
+              {next ? (
+                <Link
+                  href={projectPath(next.slug, locale)}
+                  className="flex min-w-0 flex-col gap-1.5 py-7 max-md:border-t max-md:border-rule md:items-end md:text-right"
+                >
+                  <span className="go font-normal text-ink-muted">
+                    {t.caseStudy.next}
+                    <ArrowRight aria-hidden="true" className="ico" />
+                  </span>
+                  <span className="font-display text-[clamp(1.4rem,3vw,2.4rem)] leading-[1.1] font-semibold tracking-[-0.02em]">
+                    <span className="link-underline">{next.name}</span>
+                  </span>
+                </Link>
+              ) : null}
+            </nav>
+          </Container>
+        </section>
       ) : null}
 
       <CTA locale={locale} />
 
-      <JsonLd data={creativeWorkJsonLd(project, locale)} />
+      <JsonLd data={creativeWorkJsonLd(project, locale, media.cover)} />
       <JsonLd
         data={breadcrumbJsonLd([
           { name: t.nav.home, path: path("home", locale) },
@@ -247,6 +271,6 @@ export default async function ProjectPage({ params }: Params) {
           { name: project.name, path: projectPath(project.slug, locale) },
         ])}
       />
-    </>
+    </article>
   );
 }
