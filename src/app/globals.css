@@ -379,12 +379,16 @@
     /* Taller on taller screens, like a system tab bar. */
     --dock-height: clamp(48px, 6.4vh, 54px);
     position: fixed;
-    left: 50%;
+    /* Centred between two fixed margins rather than pushed from the middle:
+       pushed from 50%, Safari gives the bar half the screen to fit in. */
+    right: calc(12px + env(safe-area-inset-right, 0px));
+    left: calc(12px + env(safe-area-inset-left, 0px));
     bottom: calc(clamp(12px, 2vh, 20px) + env(safe-area-inset-bottom, 0px));
     z-index: 40;
     /* As wide as its five entries, never wider: they sit close together. */
     display: flex;
-    max-width: calc(100% - 24px);
+    max-width: 336px;
+    margin-inline: auto;
     padding: 6px 8px;
     border-radius: 999px;
     background: var(--color-block);
@@ -393,22 +397,23 @@
     box-shadow:
       0 0 0 2px color-mix(in srgb, var(--color-canvas) 70%, transparent),
       0 16px 36px -14px rgb(12 18 24 / 0.6);
-    translate: -50% 0;
     transition: translate 340ms var(--ease-out-strong);
   }
 
   /* Slides below the edge of the screen, shadow included. Reached with the
      keyboard, it stays on screen whatever the scroll direction. */
   .dock[data-away]:not(:has(:focus-visible)) {
-    translate: -50% calc(100% + 44px + env(safe-area-inset-bottom, 0px));
+    translate: 0 calc(100% + 44px + env(safe-area-inset-bottom, 0px));
   }
 
   .dock-item {
     position: relative;
     display: flex;
     /* Wider than its label by a clear margin: the highlight of the current
-       page never hugs the text. */
-    flex: 0 0 64px;
+       page never hugs the text. On a narrow phone the five entries share
+       what there is instead of spilling out of the bar. */
+    flex: 1 1 0;
+    min-width: 0;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -451,13 +456,6 @@
       transform 300ms var(--ease-out-strong),
       width 300ms var(--ease-out-strong),
       opacity 150ms ease;
-  }
-
-  /* The narrowest phones: five entries still have to fit. */
-  @media (max-width: 359px) {
-    .dock-item {
-      flex-basis: 56px;
-    }
   }
 
   @media (min-width: 1024px) {
